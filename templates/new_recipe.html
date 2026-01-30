@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi resepti</title>
+</head>
+
+<body>
+    <h1>Uusi resepti</h1>
+  <form method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" value={{saved_title}} ></input>
+    </p> 
+    Reseptin ainekset: <br />
+    {% for value in ingredients %}
+        <div>
+            <input type="text" name="ingredients" value="{{ value }}"/>
+            <button type="submit" name="remove" value="{{ loop.index0 }}"> - </button>
+        </div>
+    {% endfor %} 
+    <button type="submit" name="add"> Uusi aines </button>
+    <p>
+    Valmistusohje:</br>
+    <textarea name="cooking_steps" rows="8" cols="60">{{ saved_cooking_steps }}</textarea>
+    </p>
+    <button type="submit" formaction="/create_recipe" name="send">Julkaise resepti</button>
+</form>
+</body>
+
+</html>
