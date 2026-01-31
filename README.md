@@ -1,4 +1,7 @@
 # Ruokareseptit
+
+## Sovelluksen toiminnot
+
 - Sovelluksessa käyttäjät pystyvät jakamaan ruokareseptejään. Reseptissä lukee tarvittavat ainekset ja valmistusohje.
 - Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 - Käyttäjä pystyy lisäämään reseptejä ja muokkaamaan ja poistamaan niitä.
@@ -7,3 +10,23 @@
 - Käyttäjäsivu näyttää, montako reseptiä käyttäjä on lisännyt ja listan käyttäjän lisäämistä resepteistä.
 - Käyttäjä pystyy valitsemaan reseptille yhden tai useamman luokittelun (esim. alkuruoka, intialainen, vegaaninen).
 - Käyttäjä pystyy antamaan reseptille kommentin ja arvosanan. Reseptistä näytetään kommentit ja keskimääräinen arvosana.
+
+##Sovelluksen asennus
+
+Asenna 'flask'-kirjasto:
+
+```
+$ pip install flask
+```
+
+Luo tietokannan taulut:
+
+```
+$ sqlite3 database.db < schema.sql
+```
+
+Käynnistä sovellus:
+
+```
+$ flask run
+```
