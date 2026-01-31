@@ -13,7 +13,7 @@
 
 ## Sovelluksen asennus
 
-Asenna 'flask'-kirjasto:
+Asenna `flask`-kirjasto:
 
 ```
 $ pip install flask
