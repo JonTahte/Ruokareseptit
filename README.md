@@ -11,7 +11,7 @@
 - Käyttäjä pystyy valitsemaan reseptille yhden tai useamman luokittelun (esim. alkuruoka, intialainen, vegaaninen).
 - Käyttäjä pystyy antamaan reseptille kommentin ja arvosanan. Reseptistä näytetään kommentit ja keskimääräinen arvosana.
 
-##Sovelluksen asennus
+## Sovelluksen asennus
 
 Asenna 'flask'-kirjasto:
 
