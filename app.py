@@ -8,10 +8,15 @@ import recipes
 app = Flask(__name__)
 app.secret_key=config.secret_key
 
-
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_recipes = recipes.get_recipes()
+    return render_template("index.html", recipes=all_recipes)
+
+@app.route("/recipe/<int:recipe_id>")
+def show_recipe(recipe_id):
+    recipe = recipes.get_recipe(recipe_id)
+    return render_template("show_recipe.html", recipe=recipe)
 
 @app.route("/new_recipe", methods = ['GET', 'POST'])
 def new_recipe():
@@ -77,10 +82,11 @@ def create_account():
     if password1 != password2:
         return "VIRHE: salasanat eivät ole samat"
     password_hash = generate_password_hash(password1)
-
+  
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
+
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
 
