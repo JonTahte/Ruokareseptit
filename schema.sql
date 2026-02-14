@@ -4,15 +4,10 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
-create table recipes (
+CREATE TABLE recipes (
     id INTEGER PRIMARY KEY,
     title TEXT,
+    ingredients TEXT,
     cooking_steps TEXT,
     user_id INTEGER REFERENCES users
-);
-
-create table ingredients (
-    id INTEGER PRIMARY KEY,
-    ingredient TEXT,
-    recipe_id INTEGER REFERENCES recipes
 );
