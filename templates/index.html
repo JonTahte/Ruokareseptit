@@ -16,21 +16,23 @@
   </p>
   <p>
     <a href="/new_recipe"> Uusi resepti</a>
-    <a href="/search_recipe">Etsi resepti</a>
   </p>
 
-  <h2>Reseptit</h2>
+  {% else %}
+    <p>
+    <a href="/login"> Kirjaudu sisään</a>
+    <a href="/register"> luo tunnus</a>
+    </p>
+  {% endif %}
+    <p>
+      <a href="/search_recipe">Etsi resepti</a>
+    </p>
+    <h2>Reseptit</h2>
   <ul>
     {% for recipe in recipes %}
     <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a></li>
     {% endfor %}
   </ul>
-  {% else %}
-    <p>
-    <a href="/login"> Kirjaudu sisään</a>
-    <a href="/register"> luo tunnus</a>
-    {% endif %}
-  </p>
 </body>
 
 </html>
