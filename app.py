@@ -18,7 +18,7 @@ def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     return render_template("show_recipe.html", recipe=recipe)
 
-@app.route("/new_recipe", methods = ["GET","POST"])
+@app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
     title = ""
     cooking_steps = ""
@@ -53,13 +53,13 @@ def create_recipe():
 
     return redirect("/")
 
-@app.route("/edit_recipe/<int:recipe_id>", methods = ["GET","POST"])
+@app.route("/edit_recipe/<int:recipe_id>", methods = ["GET", "POST"])
 def edit_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     recipe_id = recipe[0]
     title = recipe[1]
     cooking_steps = recipe[3]
-    ingredients=recipe[2].split(", ")
+    ingredients=recipe[2].split(";")
 
     if request.method == "POST":
         title = request.form["title"]
@@ -80,7 +80,6 @@ def edit_recipe(recipe_id):
                             cooking_steps=cooking_steps)
 
 @app.route("/update_recipe", methods=["POST"])
-
 def update_recipe():
     recipe_id=request.form["recipe_id"]
     title=request.form["title"]
@@ -92,7 +91,20 @@ def update_recipe():
 
     return redirect("/recipe/" + str(recipe_id))
 
-@app.route("/login", methods = ["GET","POST"])
+@app.route("/remove_recipe/<int:recipe_id>", methods = ["GET", "POST"])
+def remove_recipe(recipe_id):
+    if request.method=="GET":
+        recipe = recipes.get_recipe(recipe_id)
+        return render_template("remove_recipe.html", recipe=recipe)
+
+    elif request.method=="POST":
+        if "remove" in request.form:
+            recipes.remove_recipe(recipe_id)
+            return redirect("/")
+        else:
+            return redirect("/recipe/"+str(recipe_id))
+
+@app.route("/login", methods = ["GET", "POST"])
 def login():
     if request.method == "GET":
         return render_template("login.html")
