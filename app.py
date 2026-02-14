@@ -18,37 +18,79 @@ def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     return render_template("show_recipe.html", recipe=recipe)
 
-@app.route("/new_recipe", methods = ['GET', 'POST'])
+@app.route("/new_recipe", methods = ["GET","POST"])
 def new_recipe():
-    saved_title = ""
-    saved_cooking_steps = ""
+    title = ""
+    cooking_steps = ""
     ingredients=[""]
 
     if request.method == "POST":
-        saved_title = request.form["title"]
-        saved_cooking_steps = request.form["cooking_steps"]
+        title = request.form["title"]
+        cooking_steps = request.form["cooking_steps"]
         ingredients = request.form.getlist("ingredients")
 
         if "add" in request.form:
             ingredients.append("")
         elif "remove" in request.form:
             index_to_remove = int(request.form["remove"])
-            if len(ingredients)>1:
+            if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
 
-    return render_template("new_recipe.html", ingredients=ingredients, saved_title=saved_title, saved_cooking_steps=saved_cooking_steps)
+    return render_template("new_recipe.html",
+                            ingredients=ingredients,
+                            title=title,
+                            cooking_steps=cooking_steps)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
     title=request.form["title"]
     ingredients_list = request.form.getlist("ingredients")
     cooking_steps = request.form["cooking_steps"]
-    ingredients = ", ".join(ingredients_list)
+    ingredients = ";".join(ingredients_list)
     user_id = session["user_id"]
 
     recipes.add_recipe(title, ingredients, cooking_steps, user_id)
 
     return redirect("/")
+
+@app.route("/edit_recipe/<int:recipe_id>", methods = ["GET","POST"])
+def edit_recipe(recipe_id):
+    recipe = recipes.get_recipe(recipe_id)
+    recipe_id = recipe[0]
+    title = recipe[1]
+    cooking_steps = recipe[3]
+    ingredients=recipe[2].split(", ")
+
+    if request.method == "POST":
+        title = request.form["title"]
+        cooking_steps = request.form["cooking_steps"]
+        ingredients = request.form.getlist("ingredients")
+
+        if "add" in request.form:
+            ingredients.append("")
+        elif "remove" in request.form:
+            index_to_remove = int(request.form["remove"])
+            if len(ingredients) > 1:
+                ingredients.pop(index_to_remove)
+
+    return render_template("edit_recipe.html",
+                            recipe_id=recipe_id,
+                            ingredients=ingredients,
+                            title=title,
+                            cooking_steps=cooking_steps)
+
+@app.route("/update_recipe", methods=["POST"])
+
+def update_recipe():
+    recipe_id=request.form["recipe_id"]
+    title=request.form["title"]
+    cooking_steps = request.form["cooking_steps"]
+    ingredients_list = request.form.getlist("ingredients")
+    ingredients = ";".join(ingredients_list)
+
+    recipes.update_recipe(recipe_id, title, ingredients, cooking_steps)
+
+    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/login", methods = ["GET","POST"])
 def login():
@@ -82,7 +124,7 @@ def create_account():
     if password1 != password2:
         return "VIRHE: salasanat eivät ole samat"
     password_hash = generate_password_hash(password1)
-  
+
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])

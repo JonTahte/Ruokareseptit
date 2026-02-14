@@ -2,11 +2,11 @@
 <html>
 
 <head>
-  <title>Uusi resepti</title>
+  <title>Reseptin muokkaus</title>
 </head>
 
 <body>
-    <h1>Uusi resepti</h1>
+    <h1>Reseptin muokkaus</h1>
   <form method="post">
     <p>
       Otsikko: <br />
@@ -24,7 +24,8 @@
     Valmistusohje:</br>
     <textarea name="cooking_steps" rows="8" cols="60">{{ cooking_steps }}</textarea>
     </p>
-    <button type="submit" formaction="/create_recipe" name="send">Julkaise resepti</button>
+    <input type="hidden" name="recipe_id" value="{{ recipe_id }}"/>
+    <button type="submit" formaction="/update_recipe" name="send">Päivitä resepti</button>
 </form>
 </body>
 
