@@ -220,9 +220,7 @@ def logout():
     return redirect("/")
 
 def remove_names_from_session():
-    delete_from_session = [ "title", "prep_time", "ingredients", "cooking_steps"]
-    classes=recipes.get_all_classes()
-    for title in classes:
-        delete_from_session.append(title)
-    for name in delete_from_session:
-        session.pop(name, None)
+    keys = list(session.keys())
+    for key in keys:
+        if key!="user_id" and key!="username":
+            session.pop(key)
