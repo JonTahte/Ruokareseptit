@@ -17,19 +17,19 @@ Kloonaa repositorio omalle koneellesi:
 $ git clone git@github.com:JonTahte/Ruokareseptit.git
 ```
 
-Siirry hakemistoon
+Siirry hakemistoon:
 
 ```
 $ cd Ruokareseptit
 ```
 
-Luo virtuaaliympäristö
+Luo virtuaaliympäristö:
 
 ```
 $ python3 -m venv venv
 ```
 
-Aktivoi virtuaaliympäristö
+Aktivoi virtuaaliympäristö:
 
 ```
 $ python3 -m venv venv
