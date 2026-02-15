@@ -68,8 +68,15 @@ def create_recipe():
     require_login()
 
     title=request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     ingredients_list = request.form.getlist("ingredients")
+    for ingredient in ingredients_list:
+        if not ingredient or len(ingredient) > 50:
+            abort(403)
     cooking_steps = request.form["cooking_steps"]
+    if not cooking_steps or len(cooking_steps) > 1000:
+        abort(403)
     ingredients = ";".join(ingredients_list)
     user_id = session["user_id"]
 
@@ -121,10 +128,16 @@ def update_recipe():
         abort(403)
 
     title = request.form["title"]
-    cooking_steps = request.form["cooking_steps"]
+    if not title or len(title) > 50:
+        abort(403)
     ingredients_list = request.form.getlist("ingredients")
+    for ingredient in ingredients_list:
+        if not ingredient or len(ingredient) > 50:
+            abort(403)
+    cooking_steps = request.form["cooking_steps"]
+    if not cooking_steps or len(cooking_steps) > 1000:
+        abort(403)
     ingredients = ";".join(ingredients_list)
-
     recipes.update_recipe(recipe_id, title, ingredients, cooking_steps)
 
     return redirect("/recipe/" + str(recipe_id))
