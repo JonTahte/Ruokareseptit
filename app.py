@@ -52,7 +52,7 @@ def show_recipe(recipe_id):
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
     require_login()
-
+    classes = recipes.get_all_classes()
     ingredients = [""]
     if request.method == "POST":
         session.update(request.form.to_dict())
@@ -66,7 +66,7 @@ def new_recipe():
                 ingredients.pop(index_to_remove)
     else:
         remove_names_from_session()
-    return render_template("new_recipe.html", ingredients=ingredients, state=session)
+    return render_template("new_recipe.html", ingredients=ingredients, state=session, classes=classes)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
@@ -88,19 +88,12 @@ def create_recipe():
         abort(403)
     user_id = session["user_id"]
 
-    classes = []
-    serving_size = request.form["serving_size"]
-    if serving_size:
-        classes.append(("Annosmäärä", serving_size))
-    meal_type = request.form["meal_type"]
-    if meal_type:
-        classes.append(("Ateriatyyppi", meal_type))
-    region = request.form["region"]
-    if region:
-        classes.append(("Alue", region))
-    vegan = request.form["vegan"]
-    if vegan:
-        classes.append(("Vegaaninen", vegan))
+    class_names = recipes.get_all_class_names()
+    classes=[]
+    for name in class_names:
+        value = request.form[name]
+        if value:
+            classes.append((name, value))
 
     recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes)
 
@@ -227,7 +220,9 @@ def logout():
     return redirect("/")
 
 def remove_names_from_session():
-    delete_from_session = ["add", "remove", "title", "prep_time", "ingredients", "cooking_steps", 
-                           "serving_size", "meal_type", "region", "vegan"]
+    delete_from_session = [ "title", "prep_time", "ingredients", "cooking_steps"]
+    classes=recipes.get_all_classes()
+    for title in classes:
+        delete_from_session.append(title)
     for name in delete_from_session:
         session.pop(name, None)

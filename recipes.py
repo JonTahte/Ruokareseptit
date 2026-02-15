@@ -1,5 +1,25 @@
 import db
 
+def get_all_class_names():
+    sql = "SELECT DISTINCT title FROM classes"
+    result = db.query(sql)
+    class_names=[]
+    for entry in result:
+        class_names.append(entry["title"])
+    return class_names
+
+def get_all_classes():
+    sql = "SELECT title, value FROM classes ORDER BY id"
+    result = db.query(sql)
+
+    classes={}
+    for title, value in result:
+        classes[title] = []
+    for title, value in result:
+        classes[title].append(value)
+
+    return classes
+
 def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
     sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id)
              VALUES (?, ?, ?, ?, ?)"""
