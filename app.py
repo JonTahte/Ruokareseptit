@@ -53,24 +53,10 @@ def show_recipe(recipe_id):
 def new_recipe():
     require_login()
 
-    title = ""
-    prep_time = ""
-    ingredients=[""]
-    cooking_steps = ""
-    serving_size = ""
-    meal_type = ""
-    region = ""
-    vegan = ""
+    ingredients = [""]
     if request.method == "POST":
-        title = request.form["title"]
-        prep_time = request.form["prep_time"]
+        session.update(request.form.to_dict())
         ingredients = request.form.getlist("ingredients")
-        cooking_steps = request.form["cooking_steps"]
-        
-        serving_size = request.form["serving_size"]
-        meal_type = request.form["meal_type"]
-        region = request.form["region"]
-        vegan = request.form["vegan"]
 
         if "add" in request.form:
             ingredients.append("")
@@ -78,16 +64,9 @@ def new_recipe():
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
-
-    return render_template("new_recipe.html",
-                            ingredients=ingredients,
-                            title=title,
-                            cooking_steps=cooking_steps,
-                            prep_time=prep_time,
-                            serving_size=serving_size,
-                            meal_type=meal_type,
-                            region=region,
-                            vegan=vegan)
+    else:
+        remove_names_from_session()
+    return render_template("new_recipe.html", ingredients=ingredients, state=session)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
@@ -137,16 +116,9 @@ def edit_recipe(recipe_id):
     if recipe["user_id"] != session["user_id"]:
         abort(403)
 
-    recipe_id = recipe["id"]
-    title = recipe["title"]
-    prep_time = recipe["prep_time"]
-    ingredients=recipe["ingredients"].split(";")
-    cooking_steps = recipe["cooking_steps"]
-
+    ingredients = recipe["ingredients"].split(";")
     if request.method == "POST":
-        title = request.form["title"]
-        prep_time = request.form["prep_time"]
-        cooking_steps = request.form["cooking_steps"]
+        session.update(request.form.to_dict())
         ingredients = request.form.getlist("ingredients")
         if "add" in request.form:
             ingredients.append("")
@@ -154,13 +126,9 @@ def edit_recipe(recipe_id):
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
-
-    return render_template("edit_recipe.html",
-                            recipe_id=recipe_id,
-                            ingredients=ingredients,
-                            title=title,
-                            cooking_steps=cooking_steps,
-                            prep_time=prep_time)
+    else:
+        remove_names_from_session()
+    return render_template("edit_recipe.html", recipe=recipe, ingredients=ingredients, state=session)
 
 @app.route("/update_recipe", methods=["POST"])
 def update_recipe():
@@ -257,3 +225,9 @@ def logout():
         del session["user_id"]
         del session["username"]
     return redirect("/")
+
+def remove_names_from_session():
+    delete_from_session = ["add", "remove", "title", "prep_time", "ingredients", "cooking_steps", 
+                           "serving_size", "meal_type", "region", "vegan"]
+    for name in delete_from_session:
+        session.pop(name, None)

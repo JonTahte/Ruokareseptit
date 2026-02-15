@@ -13,11 +13,11 @@
   <form method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" value="{{ title }}" maxlength="50" required />
+      <input type="text" name="title" value="{{ state.get('title', '') }}" maxlength="50" required />
     </p>
     <p>
       Valmistusaika: </br>
-      <input type="text" name="prep_time" value="{{ prep_time }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
+      <input type="text" name="prep_time" value="{{ state.get('prep_time', '') }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
     </p>
     Reseptin ainekset: <br />
     {% for ingredient in ingredients %}
@@ -29,47 +29,47 @@
     <button type="submit" name="add" formnovalidate> Uusi aines </button>
     <p>
     Valmistusohje:<br />
-    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ cooking_steps }}</textarea>
+    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ state.get('cooking_steps', '') }}</textarea>
     </p>
     <p>
       Annosmäärä: <br />
       <select name="serving_size">
         <option value="">(valitse)</option>
-        <option value="1" {% if serving_size == "1" %}selected{% endif %}>1</option>
-        <option value="2" {% if serving_size == "2" %}selected{% endif %}>2</option>
-        <option value="3" {% if serving_size == "3" %}selected{% endif %}>3</option>
-        <option value="4" {% if serving_size == "4" %}selected{% endif %}>4</option>
+        <option value="1" {% if state.get("serving_size") == "1" %}selected{% endif %}>1</option>
+        <option value="2" {% if state.get("serving_size") == "2" %}selected{% endif %}>2</option>
+        <option value="3" {% if state.get("serving_size") == "3" %}selected{% endif %}>3</option>
+        <option value="4" {% if state.get("serving_size") == "4" %}selected{% endif %}>4</option>
       </select>
     </p>
     <p>
       Ateriatyyppi: <br />
       <select name="meal_type">
         <option value="">(valitse)</option>
-        <option value="aamiainen" {% if meal_type == "aamiainen" %}selected{% endif %}>aamiainen</option>
-        <option value="lounas" {% if meal_type == "lounas" %}selected{% endif %}>lounas</option>
-        <option value="välipala" {% if meal_type == "välipala" %}selected{% endif %}>välipala</option>
-        <option value="päivällinen" {% if meal_type == "päivällinen" %}selected{% endif %}>päivällinen</option>
-        <option value="jälkiruoka" {% if meal_type == "jälkiruoka" %}selected{% endif %}>jälkiruoka</option>
-        <option value="iltapala" {% if meal_type == "iltapala" %}selected{% endif %}>iltapala</option>
+        <option value="aamiainen" {% if state.get("meal_type") == "aamiainen" %}selected{% endif %}>aamiainen</option>
+        <option value="lounas" {% if state.get("meal_type") == "lounas" %}selected{% endif %}>lounas</option>
+        <option value="välipala" {% if state.get("meal_type") == "välipala" %}selected{% endif %}>välipala</option>
+        <option value="päivällinen" {% if state.get("meal_type") == "päivällinen" %}selected{% endif %}>päivällinen</option>
+        <option value="jälkiruoka" {% if state.get("meal_type") == "jälkiruoka" %}selected{% endif %}>jälkiruoka</option>
+        <option value="iltapala" {% if state.get("meal_type") == "iltapala" %}selected{% endif %}>iltapala</option>
       </select>
     </p>
     <p>
       Alue: <br />
       <select name="region">
         <option value="">(valitse)</option>
-        <option value="aasialainen" {% if region == "aasialainen" %}selected{% endif %}>aasialainen</option>
-        <option value="välimerellinen" {% if region == "välimerellinen" %}selected{% endif %}>välimerellinen</option>
-        <option value="pohjoismainen" {% if region == "pohjoismainen" %}selected{% endif %}>pohjoismainen</option>
-        <option value="meksikolainen" {% if region == "meksikolainen" %}selected{% endif %}>meksikolainen</option>
-        <option value="muu" {% if region == "muu" %}selected{% endif %}>muu</option>
+        <option value="aasialainen" {% if state.get("region") == "aasialainen" %}selected{% endif %}>aasialainen</option>
+        <option value="välimerellinen" {% if state.get("region") == "välimerellinen" %}selected{% endif %}>välimerellinen</option>
+        <option value="pohjoismainen" {% if state.get("region") == "pohjoismainen" %}selected{% endif %}>pohjoismainen</option>
+        <option value="meksikolainen" {% if state.get("region") == "meksikolainen" %}selected{% endif %}>meksikolainen</option>
+        <option value="muu" {% if state.get("region") == "muu" %}selected{% endif %}>muu</option>
       </select>
     </p>
     <p>
       Vegaaninen: <br />
       <select name="vegan">
         <option value="">(valitse)</option>
-        <option value="kyllä" {% if vegan == "kyllä" %}selected{% endif %}>kyllä</option>
-        <option value="ei" {% if vegan == "ei" %}selected{% endif %}>ei</option>
+        <option value="kyllä" {% if state.get("vegan") == "kyllä" %}selected{% endif %}>kyllä</option>
+        <option value="ei" {% if state.get("vegan") == "ei" %}selected{% endif %}>ei</option>
       </select>
     </p>
     <button type="submit" formaction="/create_recipe" name="send">Julkaise resepti</button>

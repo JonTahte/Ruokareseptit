@@ -10,11 +10,11 @@
   <form method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" value="{{ title }}" maxlength="50" required/>
+      <input type="text" name="title" value="{{ state.get('title', recipe.title) }}" maxlength="50" required/>
     </p> 
     <p>
       Valmistusaika: <br />
-      <input type="text" name="prep_time" value="{{ prep_time }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
+      <input type="text" name="prep_time" value="{{ state.get('prep_time', recipe.prep_time) }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
     </p>
     Reseptin ainekset: <br />
     {% for ingredient in ingredients %}
@@ -26,13 +26,13 @@
     <button type="submit" name="add" formnovalidate> Uusi aines </button>
     <p>
     Valmistusohje:<br />
-    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ cooking_steps }}</textarea>
+    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ state.get("cooking_steps", recipe.cooking_steps) }}</textarea>
     </p>
-    <input type="hidden" name="recipe_id" value="{{ recipe_id }}"/>
+    <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
     <button type="submit" formaction="/update_recipe" name="send">Päivitä resepti</button>
   </form>
   <p>
-      <a href="/recipe/{{ recipe_id }}">Takaisin</a>
+      <a href="/recipe/{{ recipe.id }}">Takaisin</a>
   </p>
 </body>
 

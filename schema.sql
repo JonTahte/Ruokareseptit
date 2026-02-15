@@ -15,7 +15,7 @@ CREATE TABLE recipes (
 
 CREATE TABLE recipe_classes (
     id INTEGER PRIMARY KEY,
-    recipe_id INTEGER REFERENCES recipes,
+    recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE,
     title TEXT,
     value TEXT
 );

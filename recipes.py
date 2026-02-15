@@ -4,7 +4,7 @@ def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
     sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id)
              VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [title, prep_time, ingredients, cooking_steps, user_id])
-    
+
     recipe_id = db.last_insert_id()
 
     sql="INSERT INTO recipe_classes (recipe_id, title, value) VALUES (?, ?, ?)"
@@ -27,8 +27,8 @@ def get_recipe(recipe_id):
                   recipes.cooking_steps,
                   users.id user_id,
                   users.username
-           FROM recipes, users
-           WHERE recipes.user_id = users.id AND
+            FROM recipes, users
+            WHERE recipes.user_id = users.id AND
                  recipes.id = ?"""
     result = db.query(sql, [recipe_id])
     return result[0] if result else None
@@ -45,6 +45,7 @@ def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps):
 def remove_recipe(recipe_id):
     sql = """DELETE FROM recipes
         WHERE id = ?"""
+    print(recipe_id)
     db.execute(sql, [recipe_id])
 
 def search_items(query):
