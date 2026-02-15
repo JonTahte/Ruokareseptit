@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Käyttäjä {{ user.username }}</title>
+</head>
+
+<body>
+  <h1>{{ user.username }}</h1> 
+  <p>
+    {% if recipes | count == 1 %}
+      Käyttäjä on luonut 1 reseptin.
+    {% else %}
+      Käyttäjä on luonut {{ recipes | count }} reseptiä.
+    {% endif %}
+  </p>
+  <h2>Reseptit</h2>
+  <ul>
+    {% for recipe in recipes %}
+      <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <p> 
+    <a href="/">Takaisin</a>
+  </p>
+</body>
+
+</html>

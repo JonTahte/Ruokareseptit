@@ -26,7 +26,7 @@
         {{ recipe.cooking_steps }}
     </p>
     <p>
-      Kirjoittaja: {{ recipe.username}}
+      Kirjoittaja: <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a>
     </p>
     <p>
       <a href="/">Takaisin</a>

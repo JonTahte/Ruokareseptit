@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
 import recipes
+import users
 
 
 app = Flask(__name__)
@@ -18,6 +19,15 @@ def require_login():
 def index():
     all_recipes = recipes.get_recipes()
     return render_template("index.html", recipes=all_recipes)
+
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    recipes = users.get_recipes(user_id)
+    return render_template("show_user.html", user=user, recipes=recipes)
 
 @app.route("/search_recipe")
 def search_recipe():
