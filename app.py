@@ -5,6 +5,7 @@ import config
 import db
 import recipes
 import users
+import re
 
 
 app = Flask(__name__)
@@ -52,13 +53,15 @@ def new_recipe():
     require_login()
 
     title = ""
-    cooking_steps = ""
+    prep_time = ""
     ingredients=[""]
+    cooking_steps = ""
 
     if request.method == "POST":
         title = request.form["title"]
-        cooking_steps = request.form["cooking_steps"]
+        prep_time = request.form["prep_time"]
         ingredients = request.form.getlist("ingredients")
+        cooking_steps = request.form["cooking_steps"]
 
         if "add" in request.form:
             ingredients.append("")
@@ -70,26 +73,34 @@ def new_recipe():
     return render_template("new_recipe.html",
                             ingredients=ingredients,
                             title=title,
-                            cooking_steps=cooking_steps)
+                            cooking_steps=cooking_steps,
+                            prep_time=prep_time)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
     require_login()
 
-    title=request.form["title"]
+    title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
+
+    prep_time = request.form["prep_time"]
+    if not re.search("^[1-9][0-9]{0,2}$", prep_time):
+        abort(403)
+
     ingredients_list = request.form.getlist("ingredients")
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
+
     cooking_steps = request.form["cooking_steps"]
     if not cooking_steps or len(cooking_steps) > 1000:
         abort(403)
+
     ingredients = ";".join(ingredients_list)
     user_id = session["user_id"]
 
-    recipes.add_recipe(title, ingredients, cooking_steps, user_id)
+    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id)
 
     return redirect("/")
 
@@ -103,13 +114,15 @@ def edit_recipe(recipe_id):
     if recipe["user_id"] != session["user_id"]:
         abort(403)
 
-    recipe_id = recipe[0]
-    title = recipe[1]
-    cooking_steps = recipe[3]
-    ingredients=recipe[2].split(";")
+    recipe_id = recipe["id"]
+    title = recipe["title"]
+    prep_time = recipe["prep_time"]
+    ingredients=recipe["ingredients"].split(";")
+    cooking_steps = recipe["cooking_steps"]
 
     if request.method == "POST":
         title = request.form["title"]
+        prep_time = request.form["prep_time"]
         cooking_steps = request.form["cooking_steps"]
         ingredients = request.form.getlist("ingredients")
         if "add" in request.form:
@@ -123,7 +136,8 @@ def edit_recipe(recipe_id):
                             recipe_id=recipe_id,
                             ingredients=ingredients,
                             title=title,
-                            cooking_steps=cooking_steps)
+                            cooking_steps=cooking_steps,
+                            prep_time=prep_time)
 
 @app.route("/update_recipe", methods=["POST"])
 def update_recipe():
@@ -139,15 +153,22 @@ def update_recipe():
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
+
+    prep_time = request.form["prep_time"]
+    if not re.search("^[1-9][0-9]{0,2}$", prep_time):
+        abort(403)
+
     ingredients_list = request.form.getlist("ingredients")
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
+
     cooking_steps = request.form["cooking_steps"]
     if not cooking_steps or len(cooking_steps) > 1000:
         abort(403)
     ingredients = ";".join(ingredients_list)
-    recipes.update_recipe(recipe_id, title, ingredients, cooking_steps)
+
+    recipes.update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps)
 
     return redirect("/recipe/" + str(recipe_id))
 

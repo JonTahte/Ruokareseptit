@@ -14,6 +14,9 @@
     </p>
     {% endif %}
     <p>
+      Valmistusaika: {{ recipe.prep_time }} min
+    </p>
+    <p>
       Ainekset: 
       <ul>
         {% for ingredient in recipe.ingredients.split(";") %}

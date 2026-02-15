@@ -7,15 +7,22 @@
 
 <body>
     <h1>Uusi resepti</h1>
+    <p>
+      <a href="/">Takaisin</a>
+    </p>
   <form method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" value="{{ title }}" maxlength="50" required/>
-    </p> 
+      <input type="text" name="title" value="{{ title }}" maxlength="50" required />
+    </p>
+    <p>
+      Valmistusaika: </br>
+      <input type="text" name="prep_time" value="{{ prep_time }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
+    </p>
     Reseptin ainekset: <br />
     {% for ingredient in ingredients %}
         <div>
-            <input type="text" name="ingredients" value="{{ ingredient }}" maxlength="50" required/>
+            <input type="text" name="ingredients" value="{{ ingredient }}" maxlength="50" required />
             <button type="submit" name="remove" value="{{ loop.index0 }}" formnovalidate> - </button>
         </div>
     {% endfor %} 

@@ -1,9 +1,9 @@
 import db
 
-def add_recipe(title, ingredients, cooking_steps, user_id):
-    sql = """INSERT INTO recipes (title, ingredients, cooking_steps, user_id)
-             VALUES (?, ?, ?, ?)"""
-    db.execute(sql, [title, ingredients, cooking_steps, user_id])
+def add_recipe(title, prep_time, ingredients, cooking_steps, user_id):
+    sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id)
+             VALUES (?, ?, ?, ?, ?)"""
+    db.execute(sql, [title, prep_time, ingredients, cooking_steps, user_id])
 
 def get_recipes():
     sql = "SELECT id, title FROM  recipes ORDER BY id DESC;"
@@ -12,6 +12,7 @@ def get_recipes():
 def get_recipe(recipe_id):
     sql = """SELECT recipes.id,
                   recipes.title,
+                  recipes.prep_time,
                   recipes.ingredients,
                   recipes.cooking_steps,
                   users.id user_id,
@@ -23,12 +24,13 @@ def get_recipe(recipe_id):
     return result[0] if result else None
 
 
-def update_recipe(recipe_id, title, ingredients, cooking_steps):
+def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps):
     sql = """UPDATE recipes SET title = ?,
+                            prep_time = ?,
                             ingredients = ?,
                             cooking_steps = ?
                         WHERE id = ?"""
-    db.execute(sql, [title, ingredients, cooking_steps, recipe_id])
+    db.execute(sql, [title, prep_time, ingredients, cooking_steps, recipe_id])
 
 def remove_recipe(recipe_id):
     sql = """DELETE FROM recipes

@@ -7,6 +7,7 @@ CREATE TABLE users (
 CREATE TABLE recipes (
     id INTEGER PRIMARY KEY,
     title TEXT,
+    prep_time INTEGER,
     ingredients TEXT,
     cooking_steps TEXT,
     user_id INTEGER REFERENCES users
