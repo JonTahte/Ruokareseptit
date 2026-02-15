@@ -28,11 +28,52 @@
     {% endfor %} 
     <button type="submit" name="add" formnovalidate> Uusi aines </button>
     <p>
-    Valmistusohje:</br>
+    Valmistusohje:<br />
     <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ cooking_steps }}</textarea>
     </p>
+    <p>
+      Annosmäärä: <br />
+      <select name="serving_size">
+        <option value="">(valitse)</option>
+        <option value="1" {% if serving_size == "1" %}selected{% endif %}>1</option>
+        <option value="2" {% if serving_size == "2" %}selected{% endif %}>2</option>
+        <option value="3" {% if serving_size == "3" %}selected{% endif %}>3</option>
+        <option value="4" {% if serving_size == "4" %}selected{% endif %}>4</option>
+      </select>
+    </p>
+    <p>
+      Ateriatyyppi: <br />
+      <select name="meal_type">
+        <option value="">(valitse)</option>
+        <option value="aamiainen" {% if meal_type == "aamiainen" %}selected{% endif %}>aamiainen</option>
+        <option value="lounas" {% if meal_type == "lounas" %}selected{% endif %}>lounas</option>
+        <option value="välipala" {% if meal_type == "välipala" %}selected{% endif %}>välipala</option>
+        <option value="päivällinen" {% if meal_type == "päivällinen" %}selected{% endif %}>päivällinen</option>
+        <option value="jälkiruoka" {% if meal_type == "jälkiruoka" %}selected{% endif %}>jälkiruoka</option>
+        <option value="iltapala" {% if meal_type == "iltapala" %}selected{% endif %}>iltapala</option>
+      </select>
+    </p>
+    <p>
+      Alue: <br />
+      <select name="region">
+        <option value="">(valitse)</option>
+        <option value="aasialainen" {% if region == "aasialainen" %}selected{% endif %}>aasialainen</option>
+        <option value="välimerellinen" {% if region == "välimerellinen" %}selected{% endif %}>välimerellinen</option>
+        <option value="pohjoismainen" {% if region == "pohjoismainen" %}selected{% endif %}>pohjoismainen</option>
+        <option value="meksikolainen" {% if region == "meksikolainen" %}selected{% endif %}>meksikolainen</option>
+        <option value="muu" {% if region == "muu" %}selected{% endif %}>muu</option>
+      </select>
+    </p>
+    <p>
+      Vegaaninen: <br />
+      <select name="vegan">
+        <option value="">(valitse)</option>
+        <option value="kyllä" {% if vegan == "kyllä" %}selected{% endif %}>kyllä</option>
+        <option value="ei" {% if vegan == "ei" %}selected{% endif %}>ei</option>
+      </select>
+    </p>
     <button type="submit" formaction="/create_recipe" name="send">Julkaise resepti</button>
-</form>
+  </form>
 </body>
 
 </html>

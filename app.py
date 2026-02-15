@@ -46,7 +46,8 @@ def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
-    return render_template("show_recipe.html", recipe=recipe)
+    classes = recipes.get_classes(recipe_id)
+    return render_template("show_recipe.html", recipe=recipe, classes=classes)
 
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
@@ -56,12 +57,20 @@ def new_recipe():
     prep_time = ""
     ingredients=[""]
     cooking_steps = ""
-
+    serving_size = ""
+    meal_type = ""
+    region = ""
+    vegan = ""
     if request.method == "POST":
         title = request.form["title"]
         prep_time = request.form["prep_time"]
         ingredients = request.form.getlist("ingredients")
         cooking_steps = request.form["cooking_steps"]
+        
+        serving_size = request.form["serving_size"]
+        meal_type = request.form["meal_type"]
+        region = request.form["region"]
+        vegan = request.form["vegan"]
 
         if "add" in request.form:
             ingredients.append("")
@@ -74,7 +83,11 @@ def new_recipe():
                             ingredients=ingredients,
                             title=title,
                             cooking_steps=cooking_steps,
-                            prep_time=prep_time)
+                            prep_time=prep_time,
+                            serving_size=serving_size,
+                            meal_type=meal_type,
+                            region=region,
+                            vegan=vegan)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
@@ -83,24 +96,34 @@ def create_recipe():
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
-
     prep_time = request.form["prep_time"]
     if not re.search("^[1-9][0-9]{0,2}$", prep_time):
         abort(403)
-
     ingredients_list = request.form.getlist("ingredients")
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
-
+    ingredients = ";".join(ingredients_list)
     cooking_steps = request.form["cooking_steps"]
     if not cooking_steps or len(cooking_steps) > 1000:
         abort(403)
-
-    ingredients = ";".join(ingredients_list)
     user_id = session["user_id"]
 
-    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id)
+    classes = []
+    serving_size = request.form["serving_size"]
+    if serving_size:
+        classes.append(("Annosmäärä", serving_size))
+    meal_type = request.form["meal_type"]
+    if meal_type:
+        classes.append(("Ateriatyyppi", meal_type))
+    region = request.form["region"]
+    if region:
+        classes.append(("Alue", region))
+    vegan = request.form["vegan"]
+    if vegan:
+        classes.append(("Vegaaninen", vegan))
+
+    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes)
 
     return redirect("/")
 
