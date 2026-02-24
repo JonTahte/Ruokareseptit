@@ -68,6 +68,8 @@ def new_recipe():
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
+        else:
+            remove_names_from_session()
 
     else:
         remove_names_from_session()
@@ -95,10 +97,14 @@ def create_recipe():
 
     class_names = recipes.get_all_classes()
     my_classes=[]
-    for name in class_names:
-        value = request.form[name]
-        if value:
-            my_classes.append((name, value))
+    for class_name in class_names:
+        class_value = request.form[class_name]
+        if class_value:
+            if class_name not in class_names:
+                abort(403)
+            if class_value not in class_names[class_name]:
+                abort(403)
+            my_classes.append((class_name, class_value))
 
     recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, my_classes)
 
@@ -130,6 +136,8 @@ def edit_recipe(recipe_id):
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
+        else:
+            remove_names_from_session()
     else:
         remove_names_from_session()
         for entry in recipes.get_classes(recipe_id):
@@ -169,10 +177,14 @@ def update_recipe():
 
     class_names = recipes.get_all_classes()
     my_classes=[]
-    for name in class_names:
-        value = request.form[name]
-        if value:
-            my_classes.append((name, value))
+    for class_name in class_names:
+        class_value = request.form[class_name]
+        if class_value:
+            if class_name not in class_names:
+                abort(403)
+            if class_value not in class_names[class_name]:
+                abort(403)
+            my_classes.append((class_name, class_value))
 
     recipes.update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps, my_classes)
 
