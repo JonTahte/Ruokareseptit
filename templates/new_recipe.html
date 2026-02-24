@@ -13,11 +13,11 @@
   <form method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" value="{{ state.get('title', '') }}" maxlength="50" required />
+      <input type="text" name="title" value="{{ session.get('title', '') }}" maxlength="50" required />
     </p>
     <p>
       Valmistusaika: </br>
-      <input type="text" name="prep_time" value="{{ state.get('prep_time', '') }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
+      <input type="text" name="prep_time" value="{{ session.get('prep_time', '') }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
     </p>
     Reseptin ainekset: <br />
     {% for ingredient in ingredients %}
@@ -29,7 +29,7 @@
     <button type="submit" name="add" formnovalidate> Uusi aines </button>
     <p>
     Valmistusohje:<br />
-    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ state.get('cooking_steps', '') }}</textarea>
+    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ session.get('cooking_steps', '') }}</textarea>
     </p>
     {% for class in classes %}
     <p>
@@ -37,7 +37,7 @@
       <select name="{{class}}">
         <option value="">(valitse)</option>
       {% for option in classes[class] %}
-        <option value="{{option}}" {% if state.get(class) == option %}selected{% endif %}>{{option}}</option>
+        <option value="{{option}}" {% if session.get(class) == option %}selected{% endif %}>{{option}}</option>
       {% endfor %}
       </select>
     </p>

@@ -54,9 +54,13 @@ def new_recipe():
     require_login()
     classes = recipes.get_all_classes()
     ingredients = [""]
+
     if request.method == "POST":
-        session.update(request.form.to_dict())
-        ingredients = request.form.getlist("ingredients")
+        for name, value in request.form.items():
+            if name == "ingredients":
+                ingredients = request.form.getlist("ingredients")
+            else:
+                session[name] = value
 
         if "add" in request.form:
             ingredients.append("")
@@ -64,9 +68,10 @@ def new_recipe():
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
+
     else:
         remove_names_from_session()
-    return render_template("new_recipe.html", ingredients=ingredients, state=session, classes=classes)
+    return render_template("new_recipe.html", ingredients=ingredients, classes=classes)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
@@ -88,14 +93,14 @@ def create_recipe():
         abort(403)
     user_id = session["user_id"]
 
-    class_names = recipes.get_all_class_names()
-    classes=[]
+    class_names = recipes.get_all_classes()
+    my_classes=[]
     for name in class_names:
         value = request.form[name]
         if value:
-            classes.append((name, value))
+            my_classes.append((name, value))
 
-    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes)
+    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, my_classes)
 
     return redirect("/")
 
@@ -110,9 +115,15 @@ def edit_recipe(recipe_id):
         abort(403)
 
     ingredients = recipe["ingredients"].split(";")
+    all_classes = recipes.get_all_classes()
+
     if request.method == "POST":
-        session.update(request.form.to_dict())
-        ingredients = request.form.getlist("ingredients")
+        for name, value in request.form.items():
+            if name == "ingredients":
+                ingredients = request.form.getlist("ingredients")
+            else:
+                session[name] = value
+
         if "add" in request.form:
             ingredients.append("")
         elif "remove" in request.form:
@@ -121,7 +132,11 @@ def edit_recipe(recipe_id):
                 ingredients.pop(index_to_remove)
     else:
         remove_names_from_session()
-    return render_template("edit_recipe.html", recipe=recipe, ingredients=ingredients, state=session)
+        for entry in recipes.get_classes(recipe_id):
+            session[entry["title"]] = entry["value"]
+
+    return render_template("edit_recipe.html", recipe=recipe, 
+                           ingredients=ingredients, all_classes=all_classes)
 
 @app.route("/update_recipe", methods=["POST"])
 def update_recipe():
@@ -152,7 +167,14 @@ def update_recipe():
         abort(403)
     ingredients = ";".join(ingredients_list)
 
-    recipes.update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps)
+    class_names = recipes.get_all_classes()
+    my_classes=[]
+    for name in class_names:
+        value = request.form[name]
+        if value:
+            my_classes.append((name, value))
+
+    recipes.update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps, my_classes)
 
     return redirect("/recipe/" + str(recipe_id))
 
