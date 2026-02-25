@@ -41,21 +41,68 @@ def search_recipe():
                            query=query,
                            results=results)
 
-@app.route("/recipe/<int:recipe_id>")
+@app.route("/recipe/<int:recipe_id>", methods = ["GET", "POST"])
 def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
     classes = recipes.get_classes(recipe_id)
-    return render_template("show_recipe.html", recipe=recipe, classes=classes)
+    if request.method == "POST" and "user_id" in session:
+        if "remove_review" in request.form:
+            recipes.remove_review(session["user_id"], recipe_id)
+            return redirect("/recipe/" + str(recipe_id))
+    my_review = None
+    if "user_id" in session:
+        my_review = recipes.get_review(session["user_id"], recipe_id)
+    return render_template("show_recipe.html", recipe=recipe,
+                           classes=classes, my_review=my_review)
+
+@app.route("/review/<int:recipe_id>")
+def review_recipe(recipe_id):
+    require_login()
+
+    user_id = session["user_id"]
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    if recipe["user_id"] == user_id:
+        abort(403)
+    if recipes.get_review(user_id, recipe_id):
+        return redirect("/recipe/" + str(recipe_id))
+
+    return render_template("review_recipe.html", recipe=recipe)
+
+@app.route("/post_review", methods=["POST"])
+def post_review():
+    require_login()
+
+    user_id = session["user_id"]
+    recipe_id = request.form["recipe_id"]
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    if recipe["user_id"] == user_id:
+        abort(403)
+
+    comment = request.form["comment"]
+    if comment and len(comment) > 1000:
+        abort(403)
+    grade = request.form["grade"]
+    if not re.search("^[1-5]$", grade):
+        abort(403)
+
+    recipes.add_review(user_id, recipe_id, comment, grade)
+    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
     require_login()
     classes = recipes.get_all_classes()
     ingredients = [""]
+    if request.method == "GET":
+        remove_names_from_session()
 
-    if request.method == "POST":
+    elif request.method == "POST":
         for name, value in request.form.items():
             if name == "ingredients":
                 ingredients = request.form.getlist("ingredients")
@@ -70,9 +117,6 @@ def new_recipe():
                 ingredients.pop(index_to_remove)
         else:
             remove_names_from_session()
-
-    else:
-        remove_names_from_session()
     return render_template("new_recipe.html", ingredients=ingredients, classes=classes)
 
 @app.route("/create_recipe", methods=["POST"])
@@ -123,7 +167,12 @@ def edit_recipe(recipe_id):
     ingredients = recipe["ingredients"].split(";")
     all_classes = recipes.get_all_classes()
 
-    if request.method == "POST":
+    if request.method == "GET":
+        remove_names_from_session()
+        for entry in recipes.get_classes(recipe_id):
+            session[entry["title"]] = entry["value"]
+
+    elif request.method == "POST":
         for name, value in request.form.items():
             if name == "ingredients":
                 ingredients = request.form.getlist("ingredients")
@@ -138,11 +187,6 @@ def edit_recipe(recipe_id):
                 ingredients.pop(index_to_remove)
         else:
             remove_names_from_session()
-    else:
-        remove_names_from_session()
-        for entry in recipes.get_classes(recipe_id):
-            session[entry["title"]] = entry["value"]
-
     return render_template("edit_recipe.html", recipe=recipe, 
                            ingredients=ingredients, all_classes=all_classes)
 

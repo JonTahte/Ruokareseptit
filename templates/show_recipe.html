@@ -42,7 +42,25 @@
       </p>
     {% endif %}
     <p>
-      <a href="/">Takaisin</a>
+      {% if session.user_id and session.user_id != recipe.user_id %}
+        {% if my_review %}
+        <h2>Arvostelu</h2>
+        <p>
+          {{ my_review.comment }}
+        <p>
+          Arvosana: {{ my_review.grade }}/5
+        </p>
+        <form method = "POST">
+          <button type="submit" name="remove_review">Poista arvostelu</button>
+        </form>
+        {% else %}
+          <a href="/review/{{ recipe.id }}">Arvostele</a>
+        {% endif %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="/">Takaisin</a> |
+      <a href="/all_reviews/{{ recipe.id }}">Kaikki arvostelut</a>
     </p>
 </body>
 

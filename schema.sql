@@ -25,3 +25,11 @@ CREATE TABLE recipe_classes (
     title TEXT,
     value TEXT
 );
+
+CREATE TABLE reviews (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE,
+    comment TEXT,
+    grade INTEGER
+);

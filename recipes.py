@@ -1,12 +1,19 @@
 import db
 
-def get_all_class_names():
-    sql = "SELECT DISTINCT title FROM classes"
-    result = db.query(sql)
-    class_names=[]
-    for entry in result:
-        class_names.append(entry["title"])
-    return class_names
+def get_review(user_id, recipe_id):
+    sql = "SELECT comment, grade FROM reviews WHERE user_id = ? and recipe_id = ?"
+    result = db.query(sql, [user_id, recipe_id])
+    return result[0] if result else None
+
+def add_review(user_id, recipe_id, comment, grade):
+    sql = """INSERT INTO reviews (user_id, recipe_id, comment, grade)
+             VALUES (?, ?, ?, ?)"""
+    db.execute(sql, [user_id, recipe_id, comment, grade])
+
+def remove_review(user_id, recipe_id):
+    sql = """DELETE FROM reviews WHERE user_id = ? AND
+            recipe_id = ?"""
+    db.execute(sql, [user_id, recipe_id])
 
 def get_all_classes():
     sql = "SELECT title, value FROM classes ORDER BY id"
@@ -17,7 +24,6 @@ def get_all_classes():
         classes[title] = []
     for title, value in result:
         classes[title].append(value)
-
     return classes
 
 def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
@@ -70,9 +76,7 @@ def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps, class
         db.execute(sql, [recipe_id, title, value])
 
 def remove_recipe(recipe_id):
-    sql = """DELETE FROM recipes
-        WHERE id = ?"""
-    print(recipe_id)
+    sql = """DELETE FROM recipes WHERE id = ?"""
     db.execute(sql, [recipe_id])
 
 def search_items(query):
