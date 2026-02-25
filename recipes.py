@@ -5,6 +5,16 @@ def get_review(user_id, recipe_id):
     result = db.query(sql, [user_id, recipe_id])
     return result[0] if result else None
 
+def get_reviews(recipe_id):
+    sql = """SELECT reviews.user_id,
+                    reviews.comment,
+                    reviews.grade,
+                    users.username
+            FROM reviews, users
+            WHERE reviews.user_id = users.id AND
+                  recipe_id = ? ORDER BY reviews.id DESC"""
+    return db.query(sql, [recipe_id])
+
 def add_review(user_id, recipe_id, comment, grade):
     sql = """INSERT INTO reviews (user_id, recipe_id, comment, grade)
              VALUES (?, ?, ?, ?)"""
@@ -42,7 +52,7 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes():
-    sql = "SELECT id, title FROM  recipes ORDER BY id DESC;"
+    sql = "SELECT id, title FROM  recipes ORDER BY id DESC"
     return db.query(sql)
 
 def get_recipe(recipe_id):

@@ -57,6 +57,12 @@ def show_recipe(recipe_id):
     return render_template("show_recipe.html", recipe=recipe,
                            classes=classes, my_review=my_review)
 
+@app.route("/reviews/<int:recipe_id>", methods = ["GET", "POST"])
+def show_reviews(recipe_id):
+    recipe = recipes.get_recipe(recipe_id)
+    reviews = recipes.get_reviews(recipe_id)
+    return render_template("show_reviews.html", recipe=recipe, reviews=reviews)
+
 @app.route("/review/<int:recipe_id>")
 def review_recipe(recipe_id):
     require_login()
