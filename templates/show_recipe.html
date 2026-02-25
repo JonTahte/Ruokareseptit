@@ -7,9 +7,12 @@
 
 <body>
     <h1>{{ recipe.title }}</h1>
+    {% if recipe.grade %}
+      Arvosana: {{ recipe.grade }}/5
+    {% endif %}
     {% if session.user_id == recipe.user_id %}
     <p>
-      <a href="/edit_recipe/{{ recipe.id }}">Muokkaa</a>
+      <a href="/edit_recipe/{{ recipe.id }}">Muokkaa</a> |
       <a href="/remove_recipe/{{ recipe.id }}">Poista</a>
     </p>
     {% endif %}
@@ -44,17 +47,32 @@
     <p>
       {% if session.user_id and session.user_id != recipe.user_id %}
         {% if my_review %}
+        <hr />
         <h2>Arvostelu</h2>
         <p>
           {{ my_review.comment }}
         <p>
           Arvosana: {{ my_review.grade }}/5
         </p>
-        <form method = "POST">
-          <button type="submit" name="remove_review">Poista arvostelu</button>
-        </form>
+        <a href="/remove_review/{{recipe.id}}">Poista</a>
+        <hr />
         {% else %}
-          <a href="/review/{{ recipe.id }}">Arvostele</a>
+        <hr />
+        <h2>Arvostele</h2>
+          <form action="/create_review" method="post">
+            <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
+            <p>
+              Kommentti: <br />
+              <textarea name="comment" rows="8" cols="60" maxlength="1000"></textarea>
+            </p>
+            <p>
+              Arvosana: </br>
+              <input type="text" name="grade" size="8" maxlength=1 pattern="^[1-5]$" required />/5
+            </p>
+            <button type="submit">Lähetä</button>
+            <p>
+          </form>
+        <hr />
         {% endif %}
       {% endif %}
     </p>

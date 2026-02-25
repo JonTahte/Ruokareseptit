@@ -1,30 +1,5 @@
 import db
 
-def get_review(user_id, recipe_id):
-    sql = "SELECT comment, grade FROM reviews WHERE user_id = ? and recipe_id = ?"
-    result = db.query(sql, [user_id, recipe_id])
-    return result[0] if result else None
-
-def get_reviews(recipe_id):
-    sql = """SELECT reviews.user_id,
-                    reviews.comment,
-                    reviews.grade,
-                    users.username
-            FROM reviews, users
-            WHERE reviews.user_id = users.id AND
-                  recipe_id = ? ORDER BY reviews.id DESC"""
-    return db.query(sql, [recipe_id])
-
-def add_review(user_id, recipe_id, comment, grade):
-    sql = """INSERT INTO reviews (user_id, recipe_id, comment, grade)
-             VALUES (?, ?, ?, ?)"""
-    db.execute(sql, [user_id, recipe_id, comment, grade])
-
-def remove_review(user_id, recipe_id):
-    sql = """DELETE FROM reviews WHERE user_id = ? AND
-            recipe_id = ?"""
-    db.execute(sql, [user_id, recipe_id])
-
 def get_all_classes():
     sql = "SELECT title, value FROM classes ORDER BY id"
     result = db.query(sql)
@@ -37,8 +12,8 @@ def get_all_classes():
     return classes
 
 def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
-    sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id)
-             VALUES (?, ?, ?, ?, ?)"""
+    sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id, grade)
+             VALUES (?, ?, ?, ?, ?, NULL)"""
     db.execute(sql, [title, prep_time, ingredients, cooking_steps, user_id])
 
     recipe_id = db.last_insert_id()
@@ -52,7 +27,7 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes():
-    sql = "SELECT id, title FROM  recipes ORDER BY id DESC"
+    sql = "SELECT id, title, grade FROM  recipes ORDER BY id DESC"
     return db.query(sql)
 
 def get_recipe(recipe_id):
@@ -61,6 +36,7 @@ def get_recipe(recipe_id):
                   recipes.prep_time,
                   recipes.ingredients,
                   recipes.cooking_steps,
+                  recipes.grade,
                   users.id user_id,
                   users.username
             FROM recipes, users

@@ -10,7 +10,8 @@ CREATE TABLE recipes (
     prep_time INTEGER,
     ingredients TEXT,
     cooking_steps TEXT,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    grade INTEGER
 );
 
 CREATE TABLE classes (

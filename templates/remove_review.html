@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Arvostelun poisto</title>
+</head>
+
+<body>
+  <h1>Arvostelun poisto</h1>
+  <p>Haluatko varmasti poistaa arvostelun?</p>
+  <form action="/remove_review/{{ recipe_id }}" method="post">
+    <button type="submit" name="remove">Poista</button>
+    <button type="submit" name="back">Peruuta</button>
+  </form>
+</body>
+
+</html>

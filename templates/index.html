@@ -6,22 +6,20 @@
 </head>
 
 <body>
-  <h1>Reseptisovellus</h1>
   {% if session.username %}
   <p>
     <a href="/logout"> Kirjaudu ulos</a>
   </p>
+  <h1>Reseptisovellus</h1>
   <p>
-    <a href="/new_recipe"> Uusi resepti</a>
-  </p>
-    <p>
+    <a href="/new_recipe"> Uusi resepti</a> | 
     <a href="/user/{{ session.user_id }}"> Omat Reseptit</a>
   </p>
-
   {% else %}
     <p>
-    <a href="/login"> Kirjaudu sisään</a>
+    <a href="/login"> Kirjaudu sisään</a> |
     <a href="/register"> luo tunnus</a>
+    <h1>Reseptisovellus</h1>
     </p>
   {% endif %}
     <p>
@@ -30,7 +28,13 @@
     <h2>Reseptit</h2>
   <ul>
     {% for recipe in recipes %}
-    <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a></li>
+    <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
+      {% if recipe.grade %}
+        ({{ recipe.grade }}/5)
+      {% else %}
+        (ei arvosteluja)
+      {% endif %}
+    </li>
     {% endfor %}
   </ul>
 </body>
