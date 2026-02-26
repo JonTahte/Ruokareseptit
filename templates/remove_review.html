@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Arvostelun poisto</title>
-</head>
+{% block title %}Arvostelun poisto{% endblock %}
 
-<body>
-  <h1>Arvostelun poisto</h1>
-  <p>Haluatko varmasti poistaa arvostelun?</p>
-  <form action="/remove_review/{{ recipe_id }}" method="post">
-    <button type="submit" name="remove">Poista</button>
-    <button type="submit" name="back">Peruuta</button>
-  </form>
-</body>
+{% block content %}
+<h2>Arvostelun poisto</h2>
 
-</html>
+<p>Haluatko varmasti poistaa arvostelun?</p>
+<form action="/remove_review/{{ recipe_id }}" method="post">
+  <button type="submit" name="remove">Poista</button>
+  <button type="submit" name="back">Peruuta</button>
+</form>
+{% endblock %}

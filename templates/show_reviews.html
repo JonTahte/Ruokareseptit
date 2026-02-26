@@ -1,37 +1,33 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Arvostelut</title>
-</head>
+{% block title %}{ recipe.title } arvostelut{% endblock %}
 
-<body>
-  <h1>{{ recipe.title }}</h1>
-  {% if not reviews %}
-    Reseptillä ei ole arvosteluja.
+{% block content %}
+<h2>{{ recipe.title }}</h2>
+
+{% if not reviews %}
+  Reseptillä ei ole arvosteluja.
+{% else %}
+  <p>
+  {% if reviews | count == 1 %}
+    Reseptillä on 1 arvostelu.
   {% else %}
-    <p>
-    {% if reviews | count == 1 %}
-      Reseptillä on 1 arvostelu.
-    {% else %}
-      Reseptillä on {{ reviews | count }} arvostelua.
-    {% endif %}
-    </p>
-    <h2> Arvostelut </h2>
-    <ul>
-      {% for review in reviews %}
-        <li><a href="/user/{{ review.user_id }}">{{ review.username }}</a><br>
-          {% if review.comment %}
-            {{ review.comment }}<br>
-          {% endif %}
-          Arvosana: {{ review.grade }}/5
-        </li><br>
-      {% endfor %}
-    </ul>
+    Reseptillä on {{ reviews | count }} arvostelua.
   {% endif %}
-  <p> 
-    <a href="/recipe/{{ recipe.id }}">Takaisin</a>
   </p>
-</body>
-
-</html>
+  <h3> Arvostelut </h3>
+  <ul>
+    {% for review in reviews %}
+      <li><a href="/user/{{ review.user_id }}">{{ review.username }}</a><br>
+        {% if review.comment %}
+          {{ review.comment }}<br>
+        {% endif %}
+        Arvosana: {{ review.grade }}/5
+      </li><br>
+    {% endfor %}
+  </ul>
+{% endif %}
+<p>
+  <a href="/recipe/{{ recipe.id }}">Takaisin</a>
+</p>
+{% endblock %}
