@@ -6,25 +6,23 @@
 </head>
 
 <body>
-  {% if session.username %}
-  <p>
-    <a href="/logout"> Kirjaudu ulos</a>
-  </p>
   <h1>Reseptisovellus</h1>
+  {% if session.user_id %}
   <p>
-    <a href="/new_recipe"> Uusi resepti</a> | 
-    <a href="/user/{{ session.user_id }}"> Omat Reseptit</a>
+    Olet kirjautunut nimellä {{ session.username }}
   </p>
-  {% else %}
-    <p>
-    <a href="/login"> Kirjaudu sisään</a> |
-    <a href="/register"> luo tunnus</a>
-    <h1>Reseptisovellus</h1>
-    </p>
   {% endif %}
-    <p>
-      <a href="/search_recipe">Etsi resepti</a>
-    </p>
+  <p>
+    <a href="/search_recipe">Etsi resepti</a> |
+    {% if session.user_id %}
+      <a href="/new_recipe"> Uusi resepti</a> |
+      <a href="/user/{{ session.user_id }}"> Omat Reseptit</a> |
+      <a href="/logout"> Kirjaudu ulos</a>
+    {% else %}
+      <a href="/login"> Kirjaudu sisään</a> |
+      <a href="/register"> luo tunnus</a>
+    {% endif %}
+  </p>
     <h2>Reseptit</h2>
   <ul>
     {% for recipe in recipes %}
