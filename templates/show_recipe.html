@@ -5,9 +5,6 @@
 {% block content %}
 <h2>{{ recipe.title }}</h2>
 
-{% if recipe.grade %}
-  Arvosana: {{ recipe.grade }}/5
-{% endif %}
 {% if session.user_id == recipe.user_id %}
 <p>
   <a href="/edit_recipe/{{ recipe.id }}">Muokkaa</a> |
@@ -53,7 +50,6 @@
       Arvosana: {{ my_review.grade }}/5
     </p>
     <a href="/remove_review/{{recipe.id}}">Poista</a>
-    <hr />
     {% else %}
     <hr />
     <h3>Arvostele</h3>
@@ -70,11 +66,11 @@
         <button type="submit">Lähetä</button>
         <p>
       </form>
-    <hr />
     {% endif %}
   {% endif %}
 </p>
 <p>
+  <hr />
   <a href="/reviews/{{ recipe.id }}">Reseptin arvostelut</a>
 </p>
 {% endblock %}

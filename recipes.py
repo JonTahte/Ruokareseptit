@@ -27,7 +27,11 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes():
-    sql = "SELECT id, title, grade FROM  recipes ORDER BY id DESC"
+    sql = """SELECT recipes.id, recipes.title, recipes.grade,
+            users.id user_id, users.username
+            FROM  recipes, users
+            WHERE recipes.user_id = users.id
+            ORDER BY recipes.id DESC"""
     return db.query(sql)
 
 def get_recipe(recipe_id):
