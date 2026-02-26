@@ -3,41 +3,42 @@
 {% block title %}Reseptin muokkaus{% endblock %}
 
 {% block content %}
-<h2>Reseptin muokkaus</h2>
-
-<form method="post">
-  <button type="submit" formaction="/update_recipe" name="send">Päivitä resepti</button>
-  <p>
-    Otsikko: <br />
-    <input type="text" name="title" value="{{ session.get('title', recipe.title) }}" maxlength="50" required/>
-  </p>
-  <p>
-    Valmistusaika: <br />
-    <input type="text" name="prep_time" value="{{ session.get('prep_time', recipe.prep_time) }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
-  </p>
-  Reseptin ainekset: <br />
-  {% for ingredient in ingredients %}
-      <div>
-          <input type="text" name="ingredients" value="{{ ingredient }}" maxlength="50" required/>
-          <button type="submit" name="remove" value="{{ loop.index0 }}" formnovalidate> - </button>
-      </div>
-  {% endfor %}
-  <button type="submit" name="add" formnovalidate> Uusi aines </button>
-  <p>
-  Valmistusohje:<br />
-  <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ session.get("cooking_steps", recipe.cooking_steps) }}</textarea>
-  </p>
-  <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
-  {% for class in all_classes %}
-  <p>
-    {{ class }}: <br />
-    <select name="{{class}}">
-      <option value="">(valitse)</option>
-      {% for option in all_classes[class] %}
-        <option value="{{option}}" {%if session.get(class) == option %} selected {% endif %}>{{  option }}</option>
-      {% endfor %}
-    </select>
+<form method="post" class="create_edit_recipe">
+  <h2 class="heading">Reseptin muokkaus</h2>
+  <button type="submit" formaction="/update_recipe" name="send" class="send">Päivitä resepti</button>
+  <div class="recipe_content">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" value="{{ session.get('title', recipe.title) }}" maxlength="50" required/>
     </p>
-  {% endfor %}
+    <p>
+      Valmistusaika: <br />
+      <input type="text" name="prep_time" value="{{ session.get('prep_time', recipe.prep_time) }}" size="8" maxlength=3 pattern="^[1-9][0-9]{0,2}$" required /> min
+    </p>
+    Reseptin ainekset: <br />
+    {% for ingredient in ingredients %}
+        <div>
+            <input type="text" name="ingredients" value="{{ ingredient }}" maxlength="50" required/>
+            <button type="submit" name="remove" value="{{ loop.index0 }}" formnovalidate> - </button>
+        </div>
+    {% endfor %}
+    <button type="submit" name="add" formnovalidate> Uusi aines </button>
+    <p>
+    Valmistusohje:<br />
+    <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ session.get("cooking_steps", recipe.cooking_steps) }}</textarea>
+    </p>
+    <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
+    {% for class in all_classes %}
+    <p>
+      {{ class }}: <br />
+      <select name="{{class}}">
+        <option value="">(valitse)</option>
+        {% for option in all_classes[class] %}
+          <option value="{{option}}" {%if session.get(class) == option %} selected {% endif %}>{{  option }}</option>
+        {% endfor %}
+      </select>
+      </p>
+    {% endfor %}
+  </div>
 </form>
 {% endblock %}
