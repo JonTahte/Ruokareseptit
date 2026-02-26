@@ -10,3 +10,11 @@ body {
   margin: 1em;
   padding: 0.2em 0.5em;
 }
+
+.hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
