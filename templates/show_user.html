@@ -14,13 +14,16 @@
       Käyttäjä on luonut {{ recipes | count }} reseptiä.
     {% endif %}
   </p>
-  <h2>Reseptit</h2>
+  {% if recipes | count > 0 %}
+    <h2>Reseptit</h2>
+
   <ul>
     {% for recipe in recipes %}
       <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a></li>
     {% endfor %}
   </ul>
-  <p> 
+  {% endif %}
+  <p>
     <a href="/">Etusivu</a>
   </p>
 </body>
