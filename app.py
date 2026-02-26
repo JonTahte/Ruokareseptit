@@ -72,7 +72,7 @@ def remove_review(recipe_id):
             reviews.remove_review(user_id, recipe_id)
         return redirect("/recipe/" + str(recipe_id))
 
-@app.route("/reviews/<int:recipe_id>", methods = ["GET", "POST"])
+@app.route("/reviews/<int:recipe_id>")
 def show_reviews(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     recipe_reviews = reviews.get_reviews(recipe_id)

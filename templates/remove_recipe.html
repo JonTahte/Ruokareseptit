@@ -8,7 +8,7 @@
 <body>
   <h1>Reseptin poisto</h1>
   <p>Haluatko varmasti poistaa reseptin <i>{{ recipe.title }}</i>?</p>
-  <form action="/remove_recipe/{{receipe_id}}" method="post">
+  <form action="/remove_recipe/{{ recipe.id }}" method="post">
     <button type="submit" name="remove">Poista ilmoitus</button>
     <button type="submit" name="back">Palaa takaisin</button>
   </form>
