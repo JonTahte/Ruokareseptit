@@ -78,21 +78,6 @@ def show_reviews(recipe_id):
     recipe_reviews = reviews.get_reviews(recipe_id)
     return render_template("show_reviews.html", recipe=recipe, reviews=recipe_reviews)
 
-@app.route("/review/<int:recipe_id>")
-def review_recipe(recipe_id):
-    require_login()
-
-    user_id = session["user_id"]
-    recipe = recipes.get_recipe(recipe_id)
-    if not recipe:
-        abort(404)
-    if recipe["user_id"] == user_id:
-        abort(403)
-    if reviews.get_review(user_id, recipe_id):
-        return redirect("/recipe/" + str(recipe_id))
-
-    return render_template("review_recipe.html", recipe=recipe)
-
 @app.route("/create_review", methods=["POST"])
 def post_review():
     require_login()
@@ -171,9 +156,9 @@ def create_recipe():
                 abort(403)
             my_classes.append((class_name, class_value))
 
-    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id, my_classes)
-
-    return redirect("/")
+    new_recipe_id = recipes.add_recipe(title, prep_time, ingredients,
+                                   cooking_steps, user_id, my_classes)
+    return redirect("/recipe/" + str(new_recipe_id))
 
 @app.route("/edit_recipe/<int:recipe_id>", methods = ["GET", "POST"])
 def edit_recipe(recipe_id):
