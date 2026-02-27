@@ -13,7 +13,6 @@ def get_recipes(user_id):
 def create_user(username, password):
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-    print("")
     db.execute(sql, [username, password_hash])
 
 def check_login(username, password):
