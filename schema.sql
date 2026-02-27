@@ -32,5 +32,6 @@ CREATE TABLE reviews (
     user_id INTEGER REFERENCES users,
     recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE,
     comment TEXT,
-    grade INTEGER
+    grade INTEGER,
+    sent_at TEXT
 );
