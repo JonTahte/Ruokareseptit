@@ -55,12 +55,12 @@
       <form action="/create_review" method="post">
         <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
         <p>
-          Kommentti: <br />
-          <textarea name="comment" rows="8" cols="60" maxlength="1000"></textarea>
+          <label for="comment">Kommentti:</label> <br />
+          <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000"></textarea>
         </p>
         <p>
-          Arvosana: </br>
-          <input type="text" name="grade" size="8" maxlength=1 pattern="^[1-5]$" required />/5
+          <label>Arvosana:</label> </br>
+          <input type="text" name="grade" id="grade" size="8" maxlength=1 pattern="^[1-5]$" required />/5
         </p>
         <button type="submit">Lähetä</button>
         <p>

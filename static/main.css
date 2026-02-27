@@ -32,3 +32,17 @@ body {
   background-color: blue;
   color: white;
 }
+
+.ingredients_syle {
+  margin-bottom: 3px;
+}
+
+.ingredients_style label {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+}
+
+#create_edit_ingredients {
+    scroll-margin-top: 375px;
+}
