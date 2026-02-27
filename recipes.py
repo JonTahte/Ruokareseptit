@@ -71,11 +71,13 @@ def remove_recipe(recipe_id):
     db.execute(sql, [recipe_id])
 
 def search_items(query):
-    sql = """SELECT id, title
-             FROM recipes
-             WHERE title LIKE ?
-             OR ingredients LIKE ?
-             OR cooking_steps LIKE ?
-             ORDER BY id DESC"""
+    sql = """SELECT recipes.id, recipes.title,
+             recipes.grade, recipes.user_id, users.username
+             FROM recipes, users
+             WHERE users.id = recipes.user_id AND
+             (recipes.title LIKE ?
+             OR recipes.ingredients LIKE ?
+             OR recipes.cooking_steps LIKE ?)
+             ORDER BY recipes.id DESC"""
     like="%" + query + "%"
     return db.query(sql, [like, like, like])
