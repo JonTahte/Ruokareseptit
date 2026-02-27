@@ -220,11 +220,11 @@ def update_recipe():
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
-
+    ingredients = ";".join(ingredients_list)
+    
     cooking_steps = request.form["cooking_steps"]
     if not cooking_steps or len(cooking_steps) > 1000:
         abort(403)
-    ingredients = ";".join(ingredients_list)
 
     class_names = recipes.get_all_classes()
     my_classes=[]
