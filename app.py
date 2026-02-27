@@ -58,6 +58,7 @@ def show_recipe(recipe_id):
 @app.route("/remove_review/<int:recipe_id>", methods = ["GET", "POST"])
 def remove_review(recipe_id):
     require_login()
+    recipe = recipes.get_recipe(recipe_id)
     user_id = session["user_id"]
     review = reviews.get_review(user_id, recipe_id)
 
@@ -65,7 +66,7 @@ def remove_review(recipe_id):
         abort(404)
 
     if request.method=="GET":
-        return render_template("remove_review.html", recipe_id=recipe_id)
+        return render_template("remove_review.html", recipe=recipe)
 
     elif request.method=="POST":
         if "remove" in request.form:
