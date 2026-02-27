@@ -4,7 +4,8 @@
 
 {% block content %}
 <form method="post">
-  <h2>Reseptin muokkaus</h2>
+  <h2>{{ recipe.title }}</h2>
+  <h3>Reseptin muokkaus</h3>
   <button type="submit" formaction="/update_recipe" class="hidden"></button>
   <p>
     Otsikko: <br />
@@ -39,5 +40,8 @@
     </p>
   {% endfor %}
   <button type="submit" formaction="/update_recipe" name="send">Päivitä resepti</button>
+  <p>
+      <a href="/recipe/{{ recipe.id }}">Takaisin</a>
+  </p>
 </form>
 {% endblock %}

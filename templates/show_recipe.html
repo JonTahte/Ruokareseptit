@@ -40,11 +40,14 @@
     {% if my_review %}
     <hr />
     <h3>Arvostelu</h3>
-    <p>
-      {{ my_review.comment }}
-    <p>
-      Arvosana: {{ my_review.grade }}/5
-    </p>
+    <div class="review">
+      <p>
+        {% if my_review.comment %}
+          {{ my_review.comment }}<br><br>
+        {% endif %}
+        Arvosana: {{ my_review.grade }}/5
+      </p>
+    </div>
     <a href="/remove_review/{{recipe.id}}">Poista</a>
     {% else %}
     <hr />

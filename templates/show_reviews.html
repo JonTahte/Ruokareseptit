@@ -18,12 +18,13 @@
   <h3> Arvostelut </h3>
   <ul>
     {% for review in reviews %}
-      <li><a href="/user/{{ review.user_id }}">{{ review.username }}</a><br>
+    <div class="review">
+      <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})<br><br>
         {% if review.comment %}
           {{ review.comment }}<br>
         {% endif %}
-        Arvosana: {{ review.grade }}/5
-      </li><br>
+        <br>Arvosana: {{ review.grade }}/5
+    </div>
     {% endfor %}
   </ul>
 {% endif %}
