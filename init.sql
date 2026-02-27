@@ -5,18 +5,17 @@ INSERT INTO classes (title, value) VALUES ('Annosmäärä', '2');
 INSERT INTO classes (title, value) VALUES ('Annosmäärä', '3');
 INSERT INTO classes (title, value) VALUES ('Annosmäärä', '4');
 
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'aamiainen');
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'lounas');
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'välipala');
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'päivällinen');
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'jälkiruoka');
-INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'iltapala');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Aamiainen');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Lounas');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Välipala');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Päivällinen');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Jälkiruoka');
+INSERT INTO classes (title, value) VALUES ('Ateriatyyppi', 'Iltapala');
 
-INSERT INTO classes (title, value) VALUES ('Alue', 'aasialainen');
-INSERT INTO classes (title, value) VALUES ('Alue', 'välimerellinen');
-INSERT INTO classes (title, value) VALUES ('Alue', 'pohjoismainen');
-INSERT INTO classes (title, value) VALUES ('Alue', 'meksikolainen');
-INSERT INTO classes (title, value) VALUES ('Alue', 'muu');
+INSERT INTO classes (title, value) VALUES ('Alue', 'Aasialainen');
+INSERT INTO classes (title, value) VALUES ('Alue', 'Välimerellinen');
+INSERT INTO classes (title, value) VALUES ('Alue', 'Pohjoismaat');
+INSERT INTO classes (title, value) VALUES ('Alue', 'Meksikolainen');
 
-INSERT INTO classes (title, value) VALUES ('Vegaaninen', 'kyllä');
-INSERT INTO classes (title, value) VALUES ('Vegaaninen', 'ei');
+INSERT INTO classes (title, value) VALUES ('Vegaaninen', 'Kyllä');
+INSERT INTO classes (title, value) VALUES ('Vegaaninen', 'Ei');
