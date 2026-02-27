@@ -135,7 +135,10 @@ def new_recipe():
                 session[name] = value
 
         if "add" in request.form:
-            ingredients.append("")
+            if len(ingredients) < 15:
+                ingredients.append("")
+            else:
+                flash("Voit lisätä reseptille korkeintaan 15 ainesosaa")
         elif "remove" in request.form:
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
@@ -157,6 +160,8 @@ def create_recipe():
     if not re.search("^[1-9][0-9]{0,2}$", prep_time):
         abort(403)
     ingredients_list = request.form.getlist("ingredients")
+    if len(ingredients_list) > 15:
+        abort(403)
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
@@ -207,7 +212,10 @@ def edit_recipe(recipe_id):
                 session[name] = value
 
         if "add" in request.form:
-            ingredients.append("")
+            if len(ingredients) < 15:
+                ingredients.append("")
+            else:
+                flash("Voit lisätä reseptille korkeintaan 15 ainesosaa")
         elif "remove" in request.form:
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
@@ -239,6 +247,8 @@ def update_recipe():
         abort(403)
 
     ingredients_list = request.form.getlist("ingredients")
+    if len(ingredients_list) > 15:
+        abort(403)
     for ingredient in ingredients_list:
         if not ingredient or len(ingredient) > 50:
             abort(403)
