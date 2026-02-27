@@ -30,7 +30,7 @@
 </p>
 <p>
     <h3>Ohje</h3>
-    {{ recipe.cooking_steps }}
+    {{ recipe.cooking_steps | show_lines }}
 </p>
 <p>
   Kirjoittaja: <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a>
@@ -43,7 +43,7 @@
     <div class="review">
       <p>
         {% if my_review.comment %}
-          {{ my_review.comment }}<br><br>
+          {{ my_review.comment | show_lines }}<br><br>
         {% endif %}
         Arvosana: {{ my_review.grade }}/5
       </p>

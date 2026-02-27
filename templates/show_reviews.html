@@ -21,7 +21,7 @@
     <div class="review">
       <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})<br><br>
         {% if review.comment %}
-          {{ review.comment }}<br>
+          {{ review.comment | show_lines }}<br>
         {% endif %}
         <br>Arvosana: {{ review.grade }}/5
     </div>
