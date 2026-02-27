@@ -39,5 +39,6 @@
   </p>
   {% endfor %}
   <button type="submit" formaction="/create_recipe" name="send">Julkaise resepti</button>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 </form>
 {% endblock %}

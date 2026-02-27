@@ -1,8 +1,8 @@
+import secrets
 import sqlite3
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
 import config
-import db
 import recipes
 import reviews
 import users
@@ -14,6 +14,12 @@ app.secret_key=config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 @app.route("/")
@@ -58,6 +64,7 @@ def show_recipe(recipe_id):
 @app.route("/remove_review/<int:recipe_id>", methods = ["GET", "POST"])
 def remove_review(recipe_id):
     require_login()
+
     recipe = recipes.get_recipe(recipe_id)
     user_id = session["user_id"]
     review = reviews.get_review(user_id, recipe_id)
@@ -69,6 +76,7 @@ def remove_review(recipe_id):
         return render_template("remove_review.html", recipe=recipe)
 
     elif request.method=="POST":
+        check_csrf()
         if "remove" in request.form:
             reviews.remove_review(user_id, recipe_id)
         return redirect("/recipe/" + str(recipe_id))
@@ -82,6 +90,7 @@ def show_reviews(recipe_id):
 @app.route("/create_review", methods=["POST"])
 def post_review():
     require_login()
+    check_csrf()
 
     user_id = session["user_id"]
     recipe_id = request.form["recipe_id"]
@@ -104,6 +113,7 @@ def post_review():
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
     require_login()
+
     classes = recipes.get_all_classes()
     ingredients = [""]
     if request.method == "GET":
@@ -129,6 +139,8 @@ def new_recipe():
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
     require_login()
+    check_csrf()
+    remove_names_from_session()
 
     title = request.form["title"]
     if not title or len(title) > 50:
@@ -200,6 +212,8 @@ def edit_recipe(recipe_id):
 @app.route("/update_recipe", methods=["POST"])
 def update_recipe():
     require_login()
+    check_csrf()
+    remove_names_from_session()
 
     recipe_id = request.form["recipe_id"]
     recipe = recipes.get_recipe(recipe_id)
@@ -255,6 +269,7 @@ def remove_recipe(recipe_id):
         return render_template("remove_recipe.html", recipe=recipe)
 
     elif request.method=="POST":
+        check_csrf()
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
             return redirect("/")
@@ -274,6 +289,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: väärä tunnus tai salasana")
@@ -310,6 +326,7 @@ def logout():
 
 def remove_names_from_session():
     keys = list(session.keys())
+    keep_in_session = ["user_id", "username", "csrf_token"]
     for key in keys:
-        if key!="user_id" and key!="username":
+        if key not in keep_in_session:
             session.pop(key)

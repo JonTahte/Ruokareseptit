@@ -27,7 +27,6 @@
   Valmistusohje:<br />
   <textarea name="cooking_steps" rows="8" cols="60" maxlength="1000" required>{{ session.get("cooking_steps", recipe.cooking_steps) }}</textarea>
   </p>
-  <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
   {% for class in all_classes %}
   <p>
     {{ class }}: <br />
@@ -40,8 +39,10 @@
     </p>
   {% endfor %}
   <button type="submit" formaction="/update_recipe" name="send">Päivitä resepti</button>
-  <p>
-      <a href="/recipe/{{ recipe.id }}">Takaisin</a>
-  </p>
+  <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 </form>
+<p>
+  <a href="/recipe/{{ recipe.id }}">Takaisin</a>
+</p>
 {% endblock %}
