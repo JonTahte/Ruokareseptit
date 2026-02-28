@@ -138,7 +138,7 @@ def new_recipe():
             if len(ingredients) < 15:
                 ingredients.append("")
             else:
-                flash("Voit lisätä reseptille korkeintaan 15 ainesosaa")
+                flash("VIRHE: Liian monta ainesosaa")
         elif "remove" in request.form:
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
@@ -215,7 +215,7 @@ def edit_recipe(recipe_id):
             if len(ingredients) < 15:
                 ingredients.append("")
             else:
-                flash("Voit lisätä reseptille korkeintaan 15 ainesosaa")
+                flash("VIRHE: Liian monta ainesosaa")
         elif "remove" in request.form:
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
