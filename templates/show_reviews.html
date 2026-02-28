@@ -18,13 +18,17 @@
   <h3> Arvostelut </h3>
   <ul>
     {% for review in reviews %}
-    <div class="review">
-      <span class="rating_stars">
+    <div class="section">
+      <div style="margin-bottom: -3px;">
+        <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})
+      </div>
+      <div class="rating_stars" style="margin-left: -3px;">
         {% for _ in range(review.rating) %}★{% endfor %}
-      </span>
-        | <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})
+      </div>
       {% if review.comment %}
-        <p style="margin-top: 0;">{{ review.comment | show_lines }}</p>
+        <div
+          style="margin-top: 5px;">{{ review.comment | show_lines }}
+        </div>
       {% endif %}
     </div>
     {% endfor %}

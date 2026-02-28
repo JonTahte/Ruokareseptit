@@ -17,7 +17,7 @@
 
 <ul>
   {% for recipe in results %}
-    <div class="recipe">
+    <div class="section">
     <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a> <br />
     Kirjoittaja: <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a> <br />
     {% if recipe.rating %}

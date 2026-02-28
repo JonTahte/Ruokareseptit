@@ -5,10 +5,11 @@ body {
   background-color: lightblue;
 }
 
-.recipe {
-  border: 2px solid black;
-  margin: 1em;
-  padding: 0.2em 0.5em;
+.section {
+  background-color: whitesmoke;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .hidden {

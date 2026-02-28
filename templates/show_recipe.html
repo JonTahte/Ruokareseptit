@@ -3,12 +3,14 @@
 {% block title %}{{ recipe.title }}{% endblock %}
 
 {% block content %}
+<p>
 <h2>{{ recipe.title }}
   {% if recipe.rating %}
-    (<span class="rating_stars">★</span>
+    (<div class="rating_stars">★</div>
     {{ recipe.rating }}/5)
   {% endif %}
 </h2>
+</p>
 
 {% if session.user_id == recipe.user_id %}
 <p>
@@ -16,7 +18,7 @@
   <a href="/remove_recipe/{{ recipe.id }}">Poista</a>
 </p>
 {% endif %}
-<p>
+<div class="section">
   Valmistusaika: {{ recipe.prep_time }} min
 {% if classes %}
   <br>
@@ -24,35 +26,35 @@
     {{ class.title }}: {{ class.value }} <br>
   {% endfor %}
 {% endif %}
-</p>
-<p>
+</div>
+<div class="section">
   <h3>Ainekset</h3>
   <ul>
     {% for ingredient in recipe.ingredients.split(";") %}
       <li>{{ ingredient }}</li>
     {% endfor %}
   </ul>
-</p>
-<p>
+</div>
+<div class="section">
     <h3>Ohje</h3>
     {{ recipe.cooking_steps | show_lines }}
-</p>
-<p>
+</div>
+<div class="section">
   Kirjoittaja: <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a>
-</p>
+</div>
 <p>
   {% if session.user_id and session.user_id != recipe.user_id %}
     {% if my_review %}
     <hr />
     <h3>Arvostelu</h3>
-    <div class="review">
+    <div class="section">
       {% if my_review.comment %}
         <p style="margin-bottom: 0;">{{ my_review.comment | show_lines }}</p>
       {% endif %}
       Arvosana:
-      <span class="rating_stars">
+      <div class="rating_stars">
         {% for _ in range(my_review.rating) %}★{% endfor %}
-      </span>
+      </div>
     </div>
     <a href="/remove_review/{{recipe.id}}">Poista</a>
     {% else %}
