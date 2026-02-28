@@ -1,14 +1,15 @@
+import re
+
 import sqlite3
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
 import secrets
 import markupsafe
+
 import config
 import recipes
 import reviews
 import users
-import re
-
 
 app = Flask(__name__)
 app.secret_key=config.secret_key
