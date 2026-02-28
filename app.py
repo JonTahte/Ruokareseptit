@@ -93,7 +93,8 @@ def remove_review(recipe_id):
 def show_reviews(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
     recipe_reviews = reviews.get_reviews(recipe_id)
-    return render_template("show_reviews.html", recipe=recipe, reviews=recipe_reviews)
+    return render_template("show_reviews.html", recipe=recipe,
+                           reviews=recipe_reviews)
 
 @app.route("/create_review", methods=["POST"])
 def post_review():
@@ -143,9 +144,12 @@ def new_recipe():
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
+            else:
+                flash("VIRHE: Reseptillä on oltava vähintään 1 ainesosa")
         else:
             remove_names_from_session()
-    return render_template("new_recipe.html", ingredients=ingredients, classes=classes)
+    return render_template("new_recipe.html", ingredients=ingredients,
+                           classes=classes)
 
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
@@ -220,6 +224,8 @@ def edit_recipe(recipe_id):
             index_to_remove = int(request.form["remove"])
             if len(ingredients) > 1:
                 ingredients.pop(index_to_remove)
+            else:
+                flash("VIRHE: Reseptillä on oltava vähintään 1 ainesosa")
         else:
             remove_names_from_session()
     return render_template("edit_recipe.html", recipe=recipe, 
@@ -269,7 +275,8 @@ def update_recipe():
                 abort(403)
             my_classes.append((class_name, class_value))
 
-    recipes.update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps, my_classes)
+    recipes.update_recipe(recipe_id, title, prep_time, ingredients,
+                          cooking_steps, my_classes)
 
     return redirect("/recipe/" + str(recipe_id))
 

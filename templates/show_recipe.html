@@ -64,15 +64,21 @@
         <input type="hidden" name="recipe_id" value="{{ recipe.id }}"/>
         <p>
           <label for="comment">Kommentti:</label> <br />
-          <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000"></textarea>
+          <textarea name="comment" id="comment" rows="8"
+          cols="60" maxlength="1000"></textarea>
         </p>
         Arvosana:
           <div class="rating">
-            <input type="radio" id="star5" name="star" value="5" required><label for="star5">★</label>
-            <input type="radio" id="star4" name="star" value="4" required><label for="star4">★</label>
-            <input type="radio" id="star3" name="star" value="3" required><label for="star3">★</label>
-            <input type="radio" id="star2" name="star" value="2" required><label for="star2">★</label>
-            <input type="radio" id="star1" name="star" value="1" required><label for="star1">★</label>
+            <input type="radio" id="star5" name="star" value="5" required>
+            <label for="star5">★</label>
+            <input type="radio" id="star4" name="star" value="4" required>
+            <label for="star4">★</label>
+            <input type="radio" id="star3" name="star" value="3" required>
+            <label for="star3">★</label>
+            <input type="radio" id="star2" name="star" value="2" required>
+            <label for="star2">★</label>
+            <input type="radio" id="star1" name="star" value="1" required>
+            <label for="star1">★</label>
         </div>
         <button type="submit">Lähetä</button>
         <p>
