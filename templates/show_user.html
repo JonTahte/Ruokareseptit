@@ -18,8 +18,8 @@
 <ul>
   {% for recipe in recipes %}
     <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
-    {% if recipe.grade %}
-      ({{ recipe.grade }}/5)
+    {% if recipe.rating %}
+      ({{ recipe.rating }}/5)
     {% else %}
       (ei arvosteluja)
     {% endif %}

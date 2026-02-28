@@ -11,7 +11,7 @@ CREATE TABLE recipes (
     ingredients TEXT,
     cooking_steps TEXT,
     user_id INTEGER REFERENCES users,
-    grade INTEGER
+    rating INTEGER
 );
 
 CREATE TABLE classes (
@@ -32,6 +32,6 @@ CREATE TABLE reviews (
     user_id INTEGER REFERENCES users,
     recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE,
     comment TEXT,
-    grade INTEGER,
+    rating INTEGER,
     sent_at TEXT
 );

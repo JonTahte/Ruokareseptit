@@ -19,11 +19,16 @@
   <ul>
     {% for review in reviews %}
     <div class="review">
-      <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})<br><br>
-        {% if review.comment %}
-          {{ review.comment | show_lines }}<br>
-        {% endif %}
-        <br>Arvosana: {{ review.grade }}/5
+      <p>
+        <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})
+      </p>
+      {% if review.comment %}
+        <p>{{ review.comment | show_lines }}</p>
+      {% endif %}
+      Arvosana:
+      <span class="rating_stars">
+        {% for _ in range(review.rating) %}★{% endfor %}
+      </span>
     </div>
     {% endfor %}
   </ul>

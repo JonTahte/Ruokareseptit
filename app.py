@@ -101,7 +101,7 @@ def post_review():
     check_csrf()
 
     user_id = session["user_id"]
-    recipe_id = request.form["recipe_id"]
+    recipe_id = request.form.get("recipe_id")
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
@@ -111,11 +111,11 @@ def post_review():
     comment = request.form["comment"]
     if comment and len(comment) > 1000:
         abort(403)
-    grade = request.form["grade"]
-    if not re.search("^[1-5]$", grade):
+    rating = request.form.get("star")
+    if not rating:
         abort(403)
 
-    reviews.add_review(user_id, recipe_id, comment, grade)
+    reviews.add_review(user_id, recipe_id, comment, rating)
     return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/new_recipe", methods = ["GET", "POST"])

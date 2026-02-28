@@ -3,7 +3,12 @@
 {% block title %}{{ recipe.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ recipe.title }}</h2>
+<h2>{{ recipe.title }}
+  {% if recipe.rating %}
+    (<span class="rating_stars">★</span>
+    {{ recipe.rating }}/5)
+  {% endif %}
+</h2>
 
 {% if session.user_id == recipe.user_id %}
 <p>
@@ -41,12 +46,13 @@
     <hr />
     <h3>Arvostelu</h3>
     <div class="review">
-      <p>
         {% if my_review.comment %}
-          {{ my_review.comment | show_lines }}<br><br>
+          <p>{{ my_review.comment | show_lines }}</p>
         {% endif %}
-        Arvosana: {{ my_review.grade }}/5
-      </p>
+        Arvosana:
+        <span class="rating_stars">
+          {% for _ in range(my_review.rating) %}★{% endfor %}
+        </span>
     </div>
     <a href="/remove_review/{{recipe.id}}">Poista</a>
     {% else %}
@@ -58,10 +64,14 @@
           <label for="comment">Kommentti:</label> <br />
           <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000"></textarea>
         </p>
-        <p>
-          <label>Arvosana:</label> </br>
-          <input type="text" name="grade" id="grade" size="8" maxlength=1 pattern="^[1-5]$" required />/5
-        </p>
+        Arvosana:
+          <div class="rating">
+            <input type="radio" id="star5" name="star" value="5" required><label for="star5">★</label>
+            <input type="radio" id="star4" name="star" value="4" required><label for="star4">★</label>
+            <input type="radio" id="star3" name="star" value="3" required><label for="star3">★</label>
+            <input type="radio" id="star2" name="star" value="2" required><label for="star2">★</label>
+            <input type="radio" id="star1" name="star" value="1" required><label for="star1">★</label>
+        </div>
         <button type="submit">Lähetä</button>
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

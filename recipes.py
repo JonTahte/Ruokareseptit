@@ -12,7 +12,7 @@ def get_all_classes():
     return classes
 
 def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
-    sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id, grade)
+    sql = """INSERT INTO recipes (title, prep_time, ingredients, cooking_steps, user_id, rating)
              VALUES (?, ?, ?, ?, ?, NULL)"""
     db.execute(sql, [title, prep_time, ingredients, cooking_steps, user_id])
 
@@ -28,7 +28,7 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes():
-    sql = """SELECT recipes.id, recipes.title, recipes.grade,
+    sql = """SELECT recipes.id, recipes.title, recipes.rating,
             users.id user_id, users.username
             FROM  recipes, users
             WHERE recipes.user_id = users.id
@@ -41,7 +41,7 @@ def get_recipe(recipe_id):
                   recipes.prep_time,
                   recipes.ingredients,
                   recipes.cooking_steps,
-                  recipes.grade,
+                  recipes.rating,
                   users.id user_id,
                   users.username
             FROM recipes, users
@@ -72,7 +72,7 @@ def remove_recipe(recipe_id):
 
 def search_items(query):
     sql = """SELECT recipes.id, recipes.title,
-             recipes.grade, recipes.user_id, users.username
+             recipes.rating, recipes.user_id, users.username
              FROM recipes, users
              WHERE users.id = recipes.user_id AND
              (recipes.title LIKE ?
