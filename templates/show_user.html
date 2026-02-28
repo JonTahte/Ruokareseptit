@@ -17,13 +17,14 @@
 
 <ul>
   {% for recipe in recipes %}
-    <li><a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
+    <div class="section">
+    <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a> <br />
     {% if recipe.rating %}
-      ({{ recipe.rating }}/5)
+      Arvosana: {{ recipe.rating }}/5
     {% else %}
       (ei arvosteluja)
     {% endif %}
-    </li>
+    </div>
   {% endfor %}
 </ul>
 {% endif %}
