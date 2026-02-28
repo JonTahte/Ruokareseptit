@@ -33,9 +33,8 @@
   </div>
   <p>
   <label for="cooking_steps">Valmistusohje:</label><br />
-  <textarea name="cooking_steps" id="cooking_steps" rows="8" cols="60"
-  maxlength="1000" required>{{ session.get("cooking_steps", recipe.cooking_steps) }}
-  </textarea>
+  <textarea name="cooking_steps" id="cooking_steps" rows="8" cols="60" maxlength="1000"
+  required>{{ session.get("cooking_steps", recipe.cooking_steps) }}</textarea>
   </p>
   {% for class in all_classes %}
   <p>
