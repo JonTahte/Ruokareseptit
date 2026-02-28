@@ -24,7 +24,6 @@ def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
-
 @app.template_filter()
 def show_lines(content):
     content = str(markupsafe.escape(content))
@@ -70,6 +69,29 @@ def show_recipe(recipe_id):
     return render_template("show_recipe.html", recipe=recipe,
                            classes=classes, my_review=my_review)
 
+@app.route("/create_review", methods=["POST"])
+def post_review():
+    require_login()
+    check_csrf()
+
+    user_id = session["user_id"]
+    recipe_id = request.form.get("recipe_id")
+    recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
+    if recipe["user_id"] == user_id:
+        abort(403)
+
+    comment = request.form["comment"]
+    if comment and len(comment) > 1000:
+        abort(403)
+    rating = request.form.get("star")
+    if not rating:
+        abort(403)
+
+    reviews.add_review(user_id, recipe_id, comment, rating)
+    return redirect("/recipe/" + str(recipe_id))
+
 @app.route("/remove_review/<int:recipe_id>", methods = ["GET", "POST"])
 def remove_review(recipe_id):
     require_login()
@@ -96,29 +118,6 @@ def show_reviews(recipe_id):
     recipe_reviews = reviews.get_reviews(recipe_id)
     return render_template("show_reviews.html", recipe=recipe,
                            reviews=recipe_reviews)
-
-@app.route("/create_review", methods=["POST"])
-def post_review():
-    require_login()
-    check_csrf()
-
-    user_id = session["user_id"]
-    recipe_id = request.form.get("recipe_id")
-    recipe = recipes.get_recipe(recipe_id)
-    if not recipe:
-        abort(404)
-    if recipe["user_id"] == user_id:
-        abort(403)
-
-    comment = request.form["comment"]
-    if comment and len(comment) > 1000:
-        abort(403)
-    rating = request.form.get("star")
-    if not rating:
-        abort(403)
-
-    reviews.add_review(user_id, recipe_id, comment, rating)
-    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():
