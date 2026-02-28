@@ -31,7 +31,18 @@ body {
   padding: 0.5em;
   background-color: blue;
   color: white;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fadeOut 4s forwards;
 }
+
+  @keyframes fadeOut {
+  0% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+  }
 
 .ingredients_syle {
   margin-bottom: 3px;
