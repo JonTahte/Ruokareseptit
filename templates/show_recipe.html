@@ -46,13 +46,13 @@
     <hr />
     <h3>Arvostelu</h3>
     <div class="review">
-        {% if my_review.comment %}
-          <p>{{ my_review.comment | show_lines }}</p>
-        {% endif %}
-        Arvosana:
-        <span class="rating_stars">
-          {% for _ in range(my_review.rating) %}★{% endfor %}
-        </span>
+      {% if my_review.comment %}
+        <p style="margin-bottom: 0;">{{ my_review.comment | show_lines }}</p>
+      {% endif %}
+      Arvosana:
+      <span class="rating_stars">
+        {% for _ in range(my_review.rating) %}★{% endfor %}
+      </span>
     </div>
     <a href="/remove_review/{{recipe.id}}">Poista</a>
     {% else %}

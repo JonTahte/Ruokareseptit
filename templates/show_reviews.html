@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}{ recipe.title } arvostelut{% endblock %}
+{% block title %}{{ recipe.title }} arvostelut{% endblock %}
 
 {% block content %}
 <h2>{{ recipe.title }}</h2>
@@ -19,16 +19,13 @@
   <ul>
     {% for review in reviews %}
     <div class="review">
-      <p>
-        <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})
-      </p>
-      {% if review.comment %}
-        <p>{{ review.comment | show_lines }}</p>
-      {% endif %}
-      Arvosana:
       <span class="rating_stars">
         {% for _ in range(review.rating) %}★{% endfor %}
       </span>
+        | <a href="/user/{{ review.user_id }}">{{ review.username }}</a> ({{ review.sent_at }})
+      {% if review.comment %}
+        <p style="margin-top: 0;">{{ review.comment | show_lines }}</p>
+      {% endif %}
     </div>
     {% endfor %}
   </ul>
