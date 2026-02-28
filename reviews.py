@@ -26,7 +26,6 @@ def add_review(user_id, recipe_id, comment, rating):
     db.execute(sql, [user_id, recipe_id, comment, rating])
 
     update_rating(recipe_id)
-    
 
 def remove_review(user_id, recipe_id):
     sql = """DELETE FROM reviews

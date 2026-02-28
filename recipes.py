@@ -11,18 +11,16 @@ def get_all_classes():
         classes[title].append(value)
     return classes
 
-def add_recipe(title, prep_time, ingredients, cooking_steps, user_id, classes):
+def add_recipe(title, prep_time, ingredients, cooking_steps, user_id):
     sql = """INSERT INTO recipes (title, prep_time, ingredients,
                                   cooking_steps, user_id, rating)
              VALUES (?, ?, ?, ?, ?, NULL)"""
     db.execute(sql, [title, prep_time, ingredients, cooking_steps, user_id])
 
-    recipe_id = db.last_insert_id()
-
+def add_recipe_classes(recipe_id, classes):
     sql = "INSERT INTO recipe_classes (recipe_id, title, value) VALUES (?, ?, ?)"
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
-    return recipe_id
 
 def get_classes(recipe_id):
     sql = "SELECT title, value FROM recipe_classes WHERE recipe_id = ?"
@@ -52,18 +50,20 @@ def get_recipe(recipe_id):
     return result[0] if result else None
 
 
-def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps, classes):
+def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps):
     sql = """UPDATE recipes SET title = ?, prep_time = ?,
                     ingredients = ?, cooking_steps = ?
             WHERE id = ?"""
     db.execute(sql, [title, prep_time, ingredients, cooking_steps, recipe_id])
 
+def update_classes(recipe_id, classes):
     sql = "DELETE FROM recipe_classes WHERE recipe_id = ?"
     db.execute(sql, [recipe_id])
 
     sql = "INSERT INTO recipe_classes (recipe_id, title, value) VALUES (?, ?, ?)"
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
+
 
 def remove_recipe(recipe_id):
     sql = """DELETE FROM recipes WHERE id = ?"""

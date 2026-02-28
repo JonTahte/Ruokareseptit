@@ -1,12 +1,13 @@
 import re
+import secrets
 
 import sqlite3
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
-import secrets
 import markupsafe
 
 import config
+import db
 import recipes
 import reviews
 import users
@@ -41,8 +42,8 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    recipes = users.get_recipes(user_id)
-    return render_template("show_user.html", user=user, recipes=recipes)
+    user_recipes = users.get_recipes(user_id)
+    return render_template("show_user.html", user=user, recipes=user_recipes)
 
 @app.route("/search_recipe")
 def search_recipe():
@@ -106,7 +107,7 @@ def remove_review(recipe_id):
     if request.method=="GET":
         return render_template("remove_review.html", recipe=recipe)
 
-    elif request.method=="POST":
+    if request.method=="POST":
         check_csrf()
         if "remove" in request.form:
             reviews.remove_review(user_id, recipe_id)
@@ -128,26 +129,12 @@ def new_recipe():
     if request.method == "GET":
         remove_names_from_session()
 
-    elif request.method == "POST":
+    if request.method == "POST":
+        ingredients = request.form.getlist("ingredients")
         for name, value in request.form.items():
-            if name == "ingredients":
-                ingredients = request.form.getlist("ingredients")
-            else:
+            if name != "ingredients":
                 session[name] = value
-
-        if "add" in request.form:
-            if len(ingredients) < 15:
-                ingredients.append("")
-            else:
-                flash("VIRHE: Liian monta ainesosaa")
-        elif "remove" in request.form:
-            index_to_remove = int(request.form["remove"])
-            if len(ingredients) > 1:
-                ingredients.pop(index_to_remove)
-            else:
-                flash("VIRHE: Reseptillä on oltava vähintään 1 ainesosa")
-        else:
-            remove_names_from_session()
+        ingredients = add_remove_ingredient(ingredients)
     return render_template("new_recipe.html", ingredients=ingredients,
                            classes=classes)
 
@@ -175,20 +162,21 @@ def create_recipe():
         abort(403)
     user_id = session["user_id"]
 
-    class_names = recipes.get_all_classes()
+    classes = recipes.get_all_classes()
     my_classes=[]
-    for class_name in class_names:
+    for class_name, class_values in classes.items():
         class_value = request.form[class_name]
         if class_value:
-            if class_name not in class_names:
+            if class_name not in classes:
                 abort(403)
-            if class_value not in class_names[class_name]:
+            if class_value not in class_values:
                 abort(403)
             my_classes.append((class_name, class_value))
 
-    new_recipe_id = recipes.add_recipe(title, prep_time, ingredients,
-                                   cooking_steps, user_id, my_classes)
-    return redirect("/recipe/" + str(new_recipe_id))
+    recipes.add_recipe(title, prep_time, ingredients, cooking_steps, user_id)
+    recipe_id = db.last_insert_id()
+    recipes.add_recipe_classes(recipe_id, my_classes)
+    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/edit_recipe/<int:recipe_id>", methods = ["GET", "POST"])
 def edit_recipe(recipe_id):
@@ -208,27 +196,13 @@ def edit_recipe(recipe_id):
         for entry in recipes.get_classes(recipe_id):
             session[entry["title"]] = entry["value"]
 
-    elif request.method == "POST":
+    if request.method == "POST":
+        ingredients = request.form.getlist("ingredients")
         for name, value in request.form.items():
-            if name == "ingredients":
-                ingredients = request.form.getlist("ingredients")
-            else:
+            if name != "ingredients":
                 session[name] = value
-
-        if "add" in request.form:
-            if len(ingredients) < 15:
-                ingredients.append("")
-            else:
-                flash("VIRHE: Liian monta ainesosaa")
-        elif "remove" in request.form:
-            index_to_remove = int(request.form["remove"])
-            if len(ingredients) > 1:
-                ingredients.pop(index_to_remove)
-            else:
-                flash("VIRHE: Reseptillä on oltava vähintään 1 ainesosa")
-        else:
-            remove_names_from_session()
-    return render_template("edit_recipe.html", recipe=recipe, 
+        ingredients = add_remove_ingredient(ingredients)
+    return render_template("edit_recipe.html", recipe=recipe,
                            ingredients=ingredients, all_classes=all_classes)
 
 @app.route("/update_recipe", methods=["POST"])
@@ -264,19 +238,20 @@ def update_recipe():
     if not cooking_steps or len(cooking_steps) > 1000:
         abort(403)
 
-    class_names = recipes.get_all_classes()
+    classes = recipes.get_all_classes()
     my_classes=[]
-    for class_name in class_names:
+    for class_name, class_values in classes.items():
         class_value = request.form[class_name]
         if class_value:
-            if class_name not in class_names:
+            if class_name not in classes:
                 abort(403)
-            if class_value not in class_names[class_name]:
+            if class_value not in class_values:
                 abort(403)
             my_classes.append((class_name, class_value))
 
     recipes.update_recipe(recipe_id, title, prep_time, ingredients,
-                          cooking_steps, my_classes)
+                          cooking_steps)
+    recipes.update_classes(recipe_id, my_classes)
 
     return redirect("/recipe/" + str(recipe_id))
 
@@ -293,7 +268,7 @@ def remove_recipe(recipe_id):
     if request.method=="GET":
         return render_template("remove_recipe.html", recipe=recipe)
 
-    elif request.method=="POST":
+    if request.method=="POST":
         check_csrf()
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
@@ -305,7 +280,7 @@ def remove_recipe(recipe_id):
 def login():
     if request.method == "GET":
         return render_template("login.html")
-    elif request.method == "POST":
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
@@ -348,6 +323,22 @@ def logout():
         del session["user_id"]
         del session["username"]
     return redirect("/")
+
+def add_remove_ingredient(ingredients):
+    if "add" in request.form:
+        if len(ingredients) < 15:
+            ingredients.append("")
+        else:
+            flash("VIRHE: Liian monta ainesosaa")
+    elif "remove" in request.form:
+        index_to_remove = int(request.form["remove"])
+        if len(ingredients) > 1:
+            ingredients.pop(index_to_remove)
+        else:
+            flash("VIRHE: Reseptillä on oltava vähintään 1 ainesosa")
+    else:
+        remove_names_from_session()
+    return ingredients
 
 def remove_names_from_session():
     keys = list(session.keys())
