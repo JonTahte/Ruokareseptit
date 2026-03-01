@@ -15,7 +15,7 @@ CREATE TABLE recipes (
 );
 
 CREATE TABLE classes (
-    id INTGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     title TEXT,
     value TEXT
     );
@@ -35,3 +35,6 @@ CREATE TABLE reviews (
     rating INTEGER,
     sent_at TEXT
 );
+
+CREATE INDEX idx_recipes_user_id ON recipes(user_id);
+CREATE INDEX idx_reviews_recipe_id ON reviews(recipe_id);
