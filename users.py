@@ -11,10 +11,15 @@ def get_user(user_id):
     return result[0] if result else None
 
 def get_recipes(user_id, page, page_size):
-    sql = """SELECT id, title, rating FROM recipes
-             WHERE user_id = ?
-             ORDER BY id DESC
-             LIMIT ? OFFSET ?"""
+    sql = """SELECT recipes.id, recipes.title, recipes.rating,
+            (SELECT COUNT(id) FROM reviews
+            WHERE reviews.recipe_id = recipes.id) review_count
+            FROM (
+            SELECT id, title, rating
+            FROM recipes
+            WHERE user_id = ?
+            ORDER BY id DESC
+            LIMIT ? OFFSET ?) recipes"""
     limit = page_size
     offset = page_size * (page - 1)
     return db.query(sql, [user_id, limit, offset])
