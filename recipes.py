@@ -31,13 +31,13 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes(page, page_size):
-    sql = """SELECT recipes.id, recipes.title, recipes.rating, 
-            users.id AS user_id, users.username, 
+    sql = """SELECT recipes.id, recipes.title, recipes.rating,
+            users.id AS user_id, users.username,
        (SELECT COUNT(id) FROM reviews WHERE recipe_id = recipes.id) review_count
         FROM (
-            SELECT id, title, rating, user_id 
-            FROM recipes 
-            ORDER BY id DESC 
+            SELECT id, title, rating, user_id
+            FROM recipes
+            ORDER BY id DESC
             LIMIT ? OFFSET ?
         ) recipes
         JOIN users ON recipes.user_id = users.id;"""
@@ -59,7 +59,6 @@ def get_recipe(recipe_id):
                     recipes.id = ?"""
     result = db.query(sql, [recipe_id])
     return result[0] if result else None
-
 
 def update_recipe(recipe_id, title, prep_time, ingredients, cooking_steps):
     sql = """UPDATE recipes SET title = ?, prep_time = ?,

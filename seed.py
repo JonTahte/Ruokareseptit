@@ -27,6 +27,6 @@ for i in range(1, review_count + 1):
     db.execute("""INSERT INTO reviews (user_id, recipe_id, comment, rating, sent_at)
                   VALUES (?, ?, ?, ?, datetime('now'))""",
                [user_id, recipe_id, "comment" + str(i), rating])
- 
+
 db.commit()
 db.close()
