@@ -25,36 +25,36 @@ Testeissä ladataan etusivun reseptiluetelman viisi ensimmäistä sivua. Käydä
 Jos tietokannan indeksit eivät ole käytössä:
 
 ```
-elapsed time: 1.96 s
-127.0.0.1 - - [01/Mar/2026 17:21:13] "GET / HTTP/1.1" 200 -
-elapsed time: 1.68 s
-127.0.0.1 - - [01/Mar/2026 17:21:18] "GET /2 HTTP/1.1" 200 -
-elapsed time: 1.69 s
-127.0.0.1 - - [01/Mar/2026 17:21:22] "GET /3 HTTP/1.1" 200 -
-elapsed time: 1.88 s
-127.0.0.1 - - [01/Mar/2026 17:21:25] "GET /4 HTTP/1.1" 200 -
-elapsed time: 1.78 s
-127.0.0.1 - - [01/Mar/2026 17:21:30] "GET /5 HTTP/1.1" 200 -
+elapsed time: 25.08 s
+127.0.0.1 - - [01/Mar/2026 18:45:07] "GET / HTTP/1.1" 200 -
+elapsed time: 22.27 s
+127.0.0.1 - - [01/Mar/2026 18:45:37] "GET /2 HTTP/1.1" 200 -
+elapsed time: 18.92 s
+127.0.0.1 - - [01/Mar/2026 18:45:58] "GET /3 HTTP/1.1" 200 -
+elapsed time: 22.85 s
+127.0.0.1 - - [01/Mar/2026 18:46:25] "GET /4 HTTP/1.1" 200 -
+elapsed time: 12.81 s
+127.0.0.1 - - [01/Mar/2026 18:46:45] "GET /5 HTTP/1.1" 200 -
 ```
 
-Sivun lataaminen ilman indeksejä vie keskimäärin 1.8 s.
+Sivun lataaminen ilman indeksejä vie keskimäärin yli 20 s.
 
 Jos tietokannan indeksit ovat käytössä:
 
 ```
-elapsed time: 0.05 s
-127.0.0.1 - - [01/Mar/2026 17:25:38] "GET / HTTP/1.1" 200 -
-elapsed time: 0.03 s
-127.0.0.1 - - [01/Mar/2026 17:25:41] "GET /2 HTTP/1.1" 200 -
-elapsed time: 0.02 s
-127.0.0.1 - - [01/Mar/2026 17:25:42] "GET /3 HTTP/1.1" 200 -
-elapsed time: 0.03 s
-127.0.0.1 - - [01/Mar/2026 17:25:43] "GET /4 HTTP/1.1" 200 -
-elapsed time: 0.03 s
-127.0.0.1 - - [01/Mar/2026 17:25:45] "GET /5 HTTP/1.1" 200 -
+elapsed time: 0.17 s
+127.0.0.1 - - [01/Mar/2026 18:48:04] "GET / HTTP/1.1" 200 -
+elapsed time: 0.11 s
+127.0.0.1 - - [01/Mar/2026 18:48:07] "GET /2 HTTP/1.1" 200 -
+elapsed time: 0.12 s
+127.0.0.1 - - [01/Mar/2026 18:48:09] "GET /3 HTTP/1.1" 200 -
+elapsed time: 0.11 s
+127.0.0.1 - - [01/Mar/2026 18:48:10] "GET /4 HTTP/1.1" 200 -
+elapsed time: 0.11 s
+127.0.0.1 - - [01/Mar/2026 18:48:11] "GET /5 HTTP/1.1" 200 -
 ```
 
-Sivun lataaminen indeksien kanssa vie keskimäärin 0.03 s eli sivupyynnöt ovat salamannopeita.
+Sivun lataaminen indeksien kanssa vie keskimäärin päälle 0.11 s.
 
 ## Sovelluksen asennus
 
