@@ -28,5 +28,11 @@
     </div>
   {% endfor %}
 </ul>
+<p>
+  <a href="/search_recipe/{{ page - 1 }}?query={{query|urlencode}}">&lt;&lt;</a>
+    Sivu {{ page }}/{{ page_count }}
+  <a href="/search_recipe/{{ page + 1 }}?query={{query|urlencode}}">&gt;&gt;</a>
+</p>
+<hr />
 {% endif %}
 {% endblock %}

@@ -58,16 +58,28 @@ def show_user(user_id):
     return render_template("show_user.html", user=user, recipes=user_recipes)
 
 @app.route("/search_recipe")
-def search_recipe():
+@app.route("/search_recipe/<int:page>")
+def search_recipe(page=1):
+    page_count = 1
     query = request.args.get("query")
+
     if query:
-        results = recipes.search_items(query)
+        page_size = 10
+        recipe_count = recipes.query_recipe_count(query)
+        page_count = math.ceil(recipe_count / page_size)
+        page_count = max(page_count, 1)
+        if page < 1:
+            return redirect("/search_recipe/1?query=" + str(query))
+        if page > page_count:
+            return redirect("/search_recipe/" + str(page_count)
+                            + "?query=" + str(query))
+        results = recipes.search_recipes(query, page, page_size)
     else:
         query = ""
         results = []
-    return render_template("search_recipe.html",
-                           query=query,
-                           results=results)
+    return render_template("search_recipe.html", page=page,
+                            page_count=page_count,
+                            query=query,results=results)
 
 @app.route("/recipe/<int:recipe_id>")
 def show_recipe(recipe_id):

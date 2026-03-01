@@ -76,7 +76,7 @@ def remove_recipe(recipe_id):
     sql = """DELETE FROM recipes WHERE id = ?"""
     db.execute(sql, [recipe_id])
 
-def search_items(query):
+def search_recipes(query, page, page_size):
     sql = """SELECT recipes.id, recipes.title, recipes.rating,
                     recipes.user_id, users.username
              FROM recipes, users
@@ -84,6 +84,20 @@ def search_items(query):
                 (recipes.title LIKE ?
                  OR recipes.ingredients LIKE ?
                  OR recipes.cooking_steps LIKE ?)
-             ORDER BY recipes.id DESC"""
-    like="%" + query + "%"
-    return db.query(sql, [like, like, like])
+             ORDER BY recipes.id DESC
+             LIMIT ? OFFSET ?"""
+    like = "%" + query + "%"
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [like, like, like, limit, offset])
+
+def query_recipe_count(query):
+    sql = """SELECT COUNT(id) FROM recipes
+            WHERE (recipes.title LIKE ?
+                OR recipes.ingredients LIKE ?
+                OR recipes.cooking_steps LIKE ?)
+            ORDER BY recipes.id DESC"""
+    if not query:
+        query = ""
+    like = "%" + query + "%"
+    return db.query(sql, [like, like, like])[0][0]
