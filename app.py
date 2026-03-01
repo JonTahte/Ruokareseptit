@@ -126,11 +126,22 @@ def remove_review(recipe_id):
         return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/reviews/<int:recipe_id>")
-def show_reviews(recipe_id):
+@app.route("/reviews/<int:recipe_id>/<int:page>")
+def show_reviews(recipe_id, page=1):
+    page_size = 10
+    review_count = reviews.review_count(recipe_id)
+    page_count = math.ceil(review_count / page_size)
+    page_count = max(page_count, 1)
+    if page < 1:
+        return redirect("/reviews/" + str(recipe_id) + "/1")
+    if page > page_count:
+        return redirect("/reviews/" + str(recipe_id) + "/" + str(page_count))
+
     recipe = recipes.get_recipe(recipe_id)
-    recipe_reviews = reviews.get_reviews(recipe_id)
-    return render_template("show_reviews.html", recipe=recipe,
-                           reviews=recipe_reviews)
+    recipe_reviews = reviews.get_reviews(recipe_id, page, page_size)
+    return render_template("show_reviews.html", page=page,
+                           page_count=page_count, recipe=recipe,
+                           reviews=recipe_reviews, review_count=review_count)
 
 @app.route("/new_recipe", methods = ["GET", "POST"])
 def new_recipe():

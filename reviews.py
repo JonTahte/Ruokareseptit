@@ -1,5 +1,9 @@
 import db
 
+def review_count(recipe_id):
+    sql = "SELECT COUNT(id) FROM reviews WHERE recipe_id = ?"
+    return db.query(sql, [recipe_id])[0][0]
+
 def get_review(user_id, recipe_id):
     sql = """SELECT reviews.recipe_id, reviews.comment, reviews.rating,
                     reviews.sent_at, reviews.user_id, users.username
@@ -9,16 +13,20 @@ def get_review(user_id, recipe_id):
     result = db.query(sql, [user_id, recipe_id])
     return result[0] if result else None
 
-def get_reviews(recipe_id):
+def get_reviews(recipe_id, page, page_size):
     sql = """SELECT reviews.user_id,
                     reviews.comment,
                     reviews.rating,
                     reviews.sent_at,
                     users.username
               FROM reviews, users
-              WHERE reviews.user_id = users.id AND
-                    recipe_id = ? ORDER BY reviews.id DESC"""
-    return db.query(sql, [recipe_id])
+              WHERE reviews.user_id = users.id
+              AND recipe_id = ?
+              ORDER BY reviews.id DESC
+              LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [recipe_id, limit, offset])
 
 def add_review(user_id, recipe_id, comment, rating):
     sql = """INSERT INTO reviews (user_id, recipe_id, comment, rating, sent_at)

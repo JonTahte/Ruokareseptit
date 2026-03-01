@@ -5,14 +5,14 @@
 {% block content %}
 <h2>{{ recipe.title }}</h2>
 
-{% if not reviews %}
+{% if review_count == 0 %}
   Reseptillä ei ole arvosteluja.
 {% else %}
   <p>
-  {% if reviews | count == 1 %}
+  {% if review_count == 1 %}
     Reseptillä on 1 arvostelu.
   {% else %}
-    Reseptillä on {{ reviews | count }} arvostelua.
+    Reseptillä on {{ review_count }} arvostelua.
   {% endif %}
   </p>
   <h3> Arvostelut </h3>
@@ -34,6 +34,12 @@
     {% endfor %}
   </ul>
 {% endif %}
+  <p>
+    <a href="/reviews/{{ recipe.id }}/{{ page - 1 }}">&lt;&lt;</a>
+    Sivu {{ page }}/{{ page_count }}
+    <a href="/reviews/{{ recipe.id }}/{{ page + 1 }}">&gt;&gt;</a>
+  </p>
+  <hr />
 <p>
   <a href="/recipe/{{ recipe.id }}">Takaisin</a>
 </p>
