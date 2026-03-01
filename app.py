@@ -326,7 +326,7 @@ def remove_recipe(recipe_id):
             recipes.remove_recipe(recipe_id)
             return redirect("/")
         else:
-            return redirect("/recipe/"+str(recipe_id))
+            return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
