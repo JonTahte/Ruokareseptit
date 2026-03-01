@@ -32,7 +32,7 @@ def get_classes(recipe_id):
 def get_recipes(page, page_size):
     sql = """SELECT recipes.id, recipes.title, recipes.rating, 
             users.id AS user_id, users.username, 
-       (SELECT COUNT(*) FROM reviews WHERE recipe_id = recipes.id) review_count
+       (SELECT COUNT(id) FROM reviews WHERE recipe_id = recipes.id) review_count
         FROM (
             SELECT id, title, rating, user_id 
             FROM recipes 
