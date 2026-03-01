@@ -1,5 +1,9 @@
 import db
 
+def recipe_count():
+    sql = "SELECT COUNT(id) FROM recipes"
+    return db.query(sql)[0][0]
+
 def get_all_classes():
     sql = "SELECT title, value FROM classes ORDER BY id"
     result = db.query(sql)
@@ -26,13 +30,16 @@ def get_classes(recipe_id):
     sql = "SELECT title, value FROM recipe_classes WHERE recipe_id = ?"
     return db.query(sql, [recipe_id])
 
-def get_recipes():
+def get_recipes(page, page_size):
     sql = """SELECT recipes.id, recipes.title, recipes.rating,
                     users.id user_id, users.username
              FROM  recipes, users
              WHERE recipes.user_id = users.id
-             ORDER BY recipes.id DESC"""
-    return db.query(sql)
+             ORDER BY recipes.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_recipe(recipe_id):
     sql = """SELECT recipes.id,

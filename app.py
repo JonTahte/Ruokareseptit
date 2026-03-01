@@ -1,5 +1,6 @@
 import re
 import secrets
+import math
 
 import sqlite3
 from flask import Flask
@@ -32,10 +33,21 @@ def show_lines(content):
     return markupsafe.Markup(content)
 
 @app.route("/")
-def index():
-    all_recipes = recipes.get_recipes()
-    return render_template("index.html", recipes=all_recipes)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    recipe_count = recipes.recipe_count()
+    page_count = math.ceil(recipe_count / page_size)
+    page_count = max(page_count, 1)
 
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    all_recipes = recipes.get_recipes(page, page_size)
+    return render_template("index.html", page=page, page_count=page_count,
+                            recipes=all_recipes)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
