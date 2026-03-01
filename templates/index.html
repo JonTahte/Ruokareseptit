@@ -10,8 +10,8 @@
     <div class="section">
     <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a> <br />
     Kirjoittaja: <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a> <br />
-    {% if recipe.rating %}
-      Arvosana: {{ recipe.rating }}/5
+    {% if recipe.review_count > 0 %}
+      Arvosana: {{ recipe.rating }}/5 ({{ recipe.review_count }} arvostelua)
     {% else %}
       (ei arvosteluja)
     {% endif %}
