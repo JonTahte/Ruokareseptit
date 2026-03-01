@@ -9,8 +9,7 @@ def get_all_classes():
     result = db.query(sql)
 
     classes={}
-    for title, value in result:
-        classes[title] = []
+
     for title, value in result:
         classes[title].append(value)
     return classes
