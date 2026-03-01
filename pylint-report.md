@@ -4,35 +4,35 @@ Pylintin antama raportti sovelluksesta:
 ```
 ************* Module app
 app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:22:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:49:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:61:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:74:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:97:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:97:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app.py:117:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:124:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:142:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:182:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:209:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:259:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:273:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-app.py:259:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app.py:280:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:289:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-app.py:280:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app.py:299:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:303:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:321:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:327:0: C0116: Missing function or method docstring (missing-function-docstring)
-app.py:343:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:30:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:37:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:54:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:75:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:102:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:115:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:138:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:138:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:159:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:176:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:194:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:234:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:261:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:311:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:325:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app.py:311:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:332:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:341:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app.py:332:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:351:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:355:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:373:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:379:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:395:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module config
 config.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-config.py:1:0: C0103: Constant name "secret_key" doesn't conform to UPPER_CASE naming style (invalid-name)      
+config.py:1:0: C0103: Constant name "secret_key" doesn't conform to UPPER_CASE naming style (invalid-name)
 ************* Module db
 db.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 db.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
@@ -44,32 +44,41 @@ db.py:22:0: W0102: Dangerous default value [] as argument (dangerous-default-val
 ************* Module recipes
 recipes.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 recipes.py:3:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:14:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:20:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:25:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:7:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
 recipes.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:37:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:59:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:68:0: C0116: Missing function or method docstring (missing-function-docstring)
-recipes.py:72:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:33:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:48:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:63:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:69:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:78:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:82:0: C0116: Missing function or method docstring (missing-function-docstring)
+recipes.py:97:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module reviews
 reviews.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 reviews.py:3:0: C0116: Missing function or method docstring (missing-function-docstring)
-reviews.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
-reviews.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
-reviews.py:30:0: C0116: Missing function or method docstring (missing-function-docstring)
+reviews.py:7:0: C0116: Missing function or method docstring (missing-function-docstring)
+reviews.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
+reviews.py:31:0: C0116: Missing function or method docstring (missing-function-docstring)
 reviews.py:38:0: C0116: Missing function or method docstring (missing-function-docstring)
+reviews.py:46:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module seed
+seed.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+seed.py:10:0: C0103: Constant name "user_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+seed.py:11:0: C0103: Constant name "recipe_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+seed.py:12:0: C0103: Constant name "review_count" doesn't conform to UPPER_CASE naming style (invalid-name)
 ************* Module users
 users.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 users.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
-users.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
-users.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
-users.py:20:0: C0116: Missing function or method docstring (missing-function-docstring)
-users.py:28:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+users.py:8:0: C0116: Missing function or method docstring (missing-function-docstring)
+users.py:13:0: C0116: Missing function or method docstring (missing-function-docstring)
+users.py:27:0: C0116: Missing function or method docstring (missing-function-docstring)
+users.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
+users.py:40:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)     
 
 ------------------------------------------------------------------
-Your code has been rated at 8.42/10 (previous run: 8.42/10, +0.00)
+Your code has been rated at 8.52/10 (previous run: 8.45/10, +0.07)
 ```
 Käydään tarkemmin läpi, miksi raportin huomautuksia ei olla korjattu.
 
@@ -79,7 +88,7 @@ Suuri osa raportin ilmoituksista ovat seuraavanlaisia
 
 ```
 app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+app.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
 ```
 
 Sovelluksen kehityksessä on tehty tietoisesti päätös, ettei käytetä docstring-kommentteja.
@@ -89,9 +98,9 @@ Sovelluksen kehityksessä on tehty tietoisesti päätös, ettei käytetä docstr
 Raportissa on seuraavat ilmoitukset liittyen funktion puuttuvaan palautusarvoon
 
 ```
-app.py:97:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app.py:259:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app.py:280:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:138:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:311:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app.py:332:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ```
 
 Esimerkiksi ensimmäinen ilmoitus koskee seuraavaa funktiota:
@@ -123,9 +132,9 @@ Kyseinen funktio palauttaa arvon, kun `request.method` on `GET` tai `POST`. Jos 
 Raportissa on seuraavat ilmoitukset liittyen `else`-haaroihin
 
 ```
-app.py:273:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-app.py:289:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-users.py:28:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app.py:325:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app.py:341:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+users.py:40:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)   
 ```
 
 Esimerkiksi ensimmäinen ilmoitus koskee seuraavaa koodia:
@@ -143,20 +152,24 @@ Tämä koodi olisi mahdollista kirjoittaa seuraavasti tiiviimmin:
 if "remove" in request.form:
     recipes.remove_recipe(recipe_id)
     return redirect("/")
-return redirect("/recipe/"+str(recipe_id))
+return redirect("/recipe/" + str(recipe_id))
 ```
 
 Kuitenkin sovelluksen kehittäjän näkemyksen mukaan tällaisissa tapauksissa on selkeämpää kirjoittaa `else`-haara, koska se tuo esille kaksi vaihtoehtoa, miten koodi voi toimia eri tilanteissa.
 
 ## Vakion nimi
 
-Raportissa on seuraava ilmoitus liittyen vakion nimeen
+Raportissa on seuraavat ilmoitukset liittyen vakion nimeen
 
 ```
 config.py:1:0: C0103: Constant name "secret_key" doesn't conform to UPPER_CASE naming style (invalid-name)
+seed.py:10:0: C0103: Constant name "user_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+seed.py:11:0: C0103: Constant name "recipe_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+seed.py:12:0: C0103: Constant name "review_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+
 ```
 
-Tässä koodin päätasolla määritelty muuttuja tulkitaan vakioksi, jonka nimen tulisi olla kirjoitettu suurilla kirjaimilla. Muuttujaa käytetään koodissa näin:
+Tässä koodin päätasolla määritelty muuttuja tulkitaan vakioksi, jonka nimen tulisi olla kirjoitettu suurilla kirjaimilla. Muuttujaa käytetään ensimmäisen ilmoituksen rivillä näin:
 
 ```python
 secret_key = "18fd24bf6a2ad4dac04a33963db1c42f"
