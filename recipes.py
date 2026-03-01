@@ -30,14 +30,16 @@ def get_classes(recipe_id):
     return db.query(sql, [recipe_id])
 
 def get_recipes(page, page_size):
-    sql = """SELECT recipes.id, recipes.title, recipes.rating,
-                    users.id user_id, users.username, COUNT(reviews.id) review_count
-             FROM recipes
-             JOIN users ON recipes.user_id = users.id
-             LEFT JOIN reviews ON reviews.recipe_id = recipes.id
-             GROUP BY recipes.id
-             ORDER BY recipes.id DESC
-             LIMIT ? OFFSET ?"""
+    sql = """SELECT recipes.id, recipes.title, recipes.rating, 
+            users.id AS user_id, users.username, 
+       (SELECT COUNT(*) FROM reviews WHERE recipe_id = recipes.id) review_count
+        FROM (
+            SELECT id, title, rating, user_id 
+            FROM recipes 
+            ORDER BY id DESC 
+            LIMIT ? OFFSET ?
+        ) recipes
+        JOIN users ON recipes.user_id = users.id;"""
     limit = page_size
     offset = page_size * (page - 1)
     return db.query(sql, [limit, offset])
