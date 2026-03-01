@@ -34,12 +34,14 @@
     {% endfor %}
   </ul>
 {% endif %}
+{% if review_count > 10 %}
   <p>
     <a href="/reviews/{{ recipe.id }}/{{ page - 1 }}">&lt;&lt;</a>
     Sivu {{ page }}/{{ page_count }}
     <a href="/reviews/{{ recipe.id }}/{{ page + 1 }}">&gt;&gt;</a>
   </p>
   <hr />
+{% endif %}
 <p>
   <a href="/recipe/{{ recipe.id }}">Takaisin</a>
 </p>

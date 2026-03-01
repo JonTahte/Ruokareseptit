@@ -18,10 +18,12 @@
     </div>
   {% endfor %}
 </ul>
+{% if recipe_count > 10 %}
 <p>
   <a href="/{{ page - 1 }}">&lt;&lt;</a>
   Sivu {{ page }}/{{ page_count }}
   <a href="/{{ page + 1 }}">&gt;&gt;</a>
 </p>
 <hr />
+{% endif %}
 {% endblock %}

@@ -47,20 +47,34 @@ def index(page=1):
 
     all_recipes = recipes.get_recipes(page, page_size)
     return render_template("index.html", page=page, page_count=page_count,
-                            recipes=all_recipes)
+                            recipes=all_recipes, recipe_count=recipe_count)
 
 @app.route("/user/<int:user_id>")
-def show_user(user_id):
+@app.route("/user/<int:user_id>/<int:page>")
+def show_user(user_id, page=1):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    user_recipes = users.get_recipes(user_id)
-    return render_template("show_user.html", user=user, recipes=user_recipes)
+
+    page_size = 10
+    recipe_count = users.recipe_count(user_id)
+    page_count = math.ceil(recipe_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/user/" + str(user_id) + "/1")
+    if page > page_count:
+        return redirect("/user/" + str(user_id) + "/" + str(page_count))
+
+    user_recipes = users.get_recipes(user_id, page, page_size)
+    return render_template("show_user.html", page=page, page_count=page_count,
+                           user=user, recipes=user_recipes, recipe_count=recipe_count)
 
 @app.route("/search_recipe")
 @app.route("/search_recipe/<int:page>")
 def search_recipe(page=1):
     page_count = 1
+    recipe_count = 0
     query = request.args.get("query")
 
     if query:
@@ -68,18 +82,21 @@ def search_recipe(page=1):
         recipe_count = recipes.query_recipe_count(query)
         page_count = math.ceil(recipe_count / page_size)
         page_count = max(page_count, 1)
+
         if page < 1:
             return redirect("/search_recipe/1?query=" + str(query))
         if page > page_count:
             return redirect("/search_recipe/" + str(page_count)
                             + "?query=" + str(query))
+
         results = recipes.search_recipes(query, page, page_size)
     else:
         query = ""
         results = []
     return render_template("search_recipe.html", page=page,
                             page_count=page_count,
-                            query=query,results=results)
+                            query=query,results=results,
+                            recipe_count=recipe_count)
 
 @app.route("/recipe/<int:recipe_id>")
 def show_recipe(recipe_id):

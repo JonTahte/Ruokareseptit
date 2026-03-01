@@ -6,13 +6,13 @@
 <h2>{{ user.username }}</h2>
 
 <p>
-  {% if recipes | count == 1 %}
-    Käyttäjä on luonut 1 reseptin.
+  {% if recipe_count == 1 %}
+    Käyttäjällä on 1 resepti.
   {% else %}
-    Käyttäjä on luonut {{ recipes | count }} reseptiä.
+    Käyttäjällä on {{ recipe_count }} reseptiä.
   {% endif %}
 </p>
-{% if recipes | count > 0 %}
+{% if recipe_count > 0 %}
   <h3>Reseptit</h3>
 
 <ul>
@@ -27,5 +27,13 @@
     </div>
   {% endfor %}
 </ul>
+{% if recipe_count > 10 %}
+<p>
+  <a href="/user/{{ user.id }}/{{ page - 1 }}">&lt;&lt;</a>
+  Sivu {{ page }}/{{ page_count }}
+  <a href="/user/{{ user.id }}/{{ page + 1 }}">&gt;&gt;</a>
+</p>
+<hr />
+{% endif %}
 {% endif %}
 {% endblock %}
